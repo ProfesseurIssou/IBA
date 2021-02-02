@@ -3,7 +3,8 @@ import re
 tokenType = {
     "VARIABLE":"%[a-zA-Z0-9]{,}%",
     "STRING":"[\"|\'].+[\"|\']",
-    "NUMBER":"[0-9]+",
+    "LETTER":"[a-zA-Z]+",
+    "NUMBER":"[0-9\.]+",
     "PLUS":"[+]",
     "MINUS":"[-]",
     "MUL":"[*]",

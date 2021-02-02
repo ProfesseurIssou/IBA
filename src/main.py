@@ -43,7 +43,8 @@ def test3():
     instructionList = [
         '%nom% = "Hamidou"',
         '%prenom% = "Alix"',
-        '%result% = %nom% + " " + %prenom%'
+        '%result% = %nom% + " " + %prenom%',
+        "print %result%"
     ]
     variables = {}
     for instruction in instructionList:

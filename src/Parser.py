@@ -21,6 +21,7 @@ RULES = {
     "STRING":["STRING"],
     "VARIABLE":["VARIABLE"],
     "SET":["SET","NODE"],
+    "PRINT":["PRINT","NODE"],
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
     "DIV":["NODE","DIV","NODE"],
@@ -30,7 +31,7 @@ PRIORITY = [
     ["NUMBER","VARIABLE","STRING"],# 1=en premier
     ["MUL","DIV"],# 2=en deuxieme
     ["ADD","SUB"],
-    ["SET"]
+    ["SET","PRINT"]
 ]
 
 
@@ -61,6 +62,9 @@ def nodeMaker(syntaxTree,rule,tokens):
         #On retire les " et ' de la valeur
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
     if rule=="SET":
+        nodeValue = tokens[0][1]
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="PRINT":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name
     if rule=="ADD":

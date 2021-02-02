@@ -9,8 +9,10 @@ def SET(eval,variables):
     variables[variableName] = variableValue
     return variables
 
-
-
+def PRINT(eval):
+    #On affiche le text demandé
+    print(eval[str(len(eval)-2)])
+    return
 
 
 
@@ -19,4 +21,7 @@ def execute(eval,variables):
     instructionType = eval[str(len(eval)-1)].type
     if instructionType == "SET":
         variables = SET(eval,variables)
+    if instructionType == "PRINT":
+        PRINT(eval)
+        
     return variables
