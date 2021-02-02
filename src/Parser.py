@@ -58,7 +58,8 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="VARIABLE":
         nodeValue = tokens[0][1]
     if rule=="STRING":
-        nodeValue = tokens[0][1]
+        #On retire les " et ' de la valeur
+        nodeValue = tokens[0][1].replace("'","").replace('"',"")
     if rule=="SET":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name

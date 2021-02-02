@@ -1,114 +1,18 @@
-#Faire par regex (pour les string principalement)
+import re
+
 tokenType = {
-    "LETTER":[
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-    ],
-    "NUMBER":[
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "."
-    ],
-    "PLUS":[
-        "+"
-    ],
-    "MINUS":[
-        "-"
-    ],
-    "MUL":[
-        "*"
-    ],
-    "DIV":[
-        "/"
-    ],
-    "EGAL":[
-        "="
-    ],
-    "SPACE":[
-        " "
-    ],
-    "PERCENT":[
-        "%"
-    ],
-    "STRING_DELIMITER":[
-        "'",
-        '"'
-    ],
-    "PARENTHESIS_OPEN":[
-        "("
-    ],
-    "PARENTHESIS_CLOSE":[
-        ")"
-    ]
+    "VARIABLE":"%[a-zA-Z0-9]{,}%",
+    "STRING":"[\"|\'].+[\"|\']",
+    "NUMBER":"[0-9]+",
+    "PLUS":"[+]",
+    "MINUS":"[-]",
+    "MUL":"[*]",
+    "DIV":"[/]",
+    "EGAL":"[=]",
+    "SPACE":"[ ]"
 }
 
 keywords = {
-    "VARIABLE":[
-        ["PERCENT","LETTER","PERCENT"]
-    ],
-    "STRING":[
-        ["STRING_DELIMITER","LETTER","STRING_DELIMITER"],
-        ["STRING_DELIMITER","NUMBER","STRING_DELIMITER"],
-        ["STRING_DELIMITER","SPACE","STRING_DELIMITER"]
-    ],
     "CONDITION":[
         [["LETTER","if"],"SPACE"]
     ],
@@ -121,16 +25,6 @@ keywords = {
     ]
 }
 #NOMBRE NEGATIF
-
-def identifier(charact):
-    """
-    Identification du type de token
-    """
-    #Pour chaque type de token
-    for token in tokenType.keys():
-        #Si le charactere correspond a l'un des trigger du type de token
-        if charact in tokenType[token]:
-            return token
 
 def keywordChecker(tokens_list):
     """
@@ -201,28 +95,51 @@ def keywordChecker(tokens_list):
             del tokens_list[0]
     return tokens
 
-def Gen(instruction):
+
+def Gen(Instruction):
     """
     Generation des tokens de l'instruction
     """
-    #Liste des token [[type,value],...]
-    tokens = []
-    #Token lors du traitement
-    tokenType = ""
-    #Pour chaque caractere de l'instruction
-    for charact in instruction:
-        #On recupere le type
-        tokenType = identifier(charact)
-        #Si la liste des token n'est pas vide ET que l'ancien type est le meme
-        if tokens != [] and tokenType == tokens[-1][0]:
-            #On ajoute la valeur a l'ancien type
-            tokens[-1][1] += charact
-        #Sinon
-        else:
-            #On ajoute le nouveau type et sa valeur
-            tokens.append([tokenType,charact])
-    #On check les keyword
-    tokens = keywordChecker(tokens)
-    #On check une seconde fois
-    tokens = keywordChecker(tokens)
-    return tokens
+    #On cree la liste des token (on la divisera au fur et a mesure)
+    tokenList = [Instruction]    
+    #Pour chaque type de token
+    for tokenName in tokenType.keys():
+        #Si on effectue une modification
+        changed = True
+        #Tant qu'on trouve des token
+        while(changed):
+            #On remet les changement a aucun
+            changed = False
+            #Pour chaque partie du token
+            for xToken,token in enumerate(tokenList):
+                #Si le token n'est pas une liste (pas encore traiter)
+                if type(token) != list:
+                    #On trouve toute les coherance
+                    findToken = re.findall(tokenType[tokenName],token)
+                    #Si on à trouvé
+                    if findToken != []:
+                        #On prend uniquement le premier
+                        findToken = findToken[0]
+                        #On a modifier quelque chose
+                        changed = True
+                        #On cree une liste de token temporaire
+                        tempTokenList = []
+                        #On cherche la position du token
+                        findTokenPos = token.find(findToken)
+                        #On decoupe la liste en ce point
+                        tempTokenList += tokenList[:xToken]+[tokenList[xToken][:findTokenPos]]
+                        tempTokenList += [[tokenName,findToken]]
+                        tempTokenList += [tokenList[xToken][findTokenPos+len(findToken):]]+tokenList[xToken+1:]
+                        #On vide la liste
+                        tokenList = []
+                        #On supprime toute les partie vide de la liste
+                        for tempToken in tempTokenList:
+                            #Si c'est pas vide
+                            if tempToken != '':
+                                #On ajoute a la liste
+                                   tokenList.append(tempToken)
+                        #On quitte la boucle pour recommencer le scan
+                        break
+    #On cherche les keyword
+    tokenList = keywordChecker(tokenList)
+    return tokenList

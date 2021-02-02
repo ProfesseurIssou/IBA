@@ -24,7 +24,7 @@ def test1():
     #On execute l'instruction
     variables = Execute.execute(eval,variables)
     print(variables)
-# test1()
+test1()
 
 def test2():
     variables = {}
@@ -55,4 +55,4 @@ def test3():
         #On execute l'instruction
         variables = Execute.execute(eval,variables)
         print(variables)
-test3()
+# test3()
