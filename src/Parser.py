@@ -1,7 +1,4 @@
-#Regle de grammaire
-# Expression = {}
-# Term = ()
-# Facteur = []
+#On remplace les token par des noeud celon les regle
 
 #8+5*22 => 
 # MULT(5,22)
@@ -26,14 +23,25 @@ RULES = {
     "SUB":["NODE","MINUS","NODE"],
     "DIV":["NODE","DIV","NODE"],
     "MUL":["NODE","MUL","NODE"],
-    "PARENTHESIS":["OPEN_PARENTHESIS","NODE","CLOSE_PARENTHESIS"]
+    "PARENTHESIS":["OPEN_PARENTHESIS","NODE","CLOSE_PARENTHESIS"],
+    "CONDITION":["CONDITION","NODE"],
+    "EGAL_CONDITION":["NODE","EGAL_TO_CONDITION","NODE"],
+    "NOTEGAL_CONDITION":["NODE","NOTEGAL_TO_CONDITION","NODE"],
+    "MORE_EGAL_CONDITION":["NODE","MORE_EGAL_THAN_CONDITION","NODE"],
+    "MORE_CONDITION":["NODE","MORE_THAN_CONDITION","NODE"],
+    "LESS_EGAL_CONDITION":["NODE","LESS_EGAL_THAN_CONDITION","NODE"],
+    "LESS_CONDITION":["NODE","LESS_THAN_CONDITION","NODE"],
+    "AND_CONDITION":["NODE","AND_CONDITION","NODE"],
+    "OR_CONDITION":["NODE","OR_CONDITION","NODE"]
 }
 PRIORITY = [
     ["NUMBER","VARIABLE","STRING"],# 1=en premier
     ["MUL","DIV"],# 2=en deuxieme
     ["ADD","SUB"],
+    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],
+    ["AND_CONDITION","OR_CONDITION"],
     ["PARENTHESIS"],
-    ["SET","PRINT"]
+    ["SET","PRINT","CONDITION"]
 ]
 
 
@@ -65,6 +73,7 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
     if rule=="PARENTHESIS":
         nodeNameInput1 = tokens[1][1].name
+
     if rule=="ADD":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
@@ -77,12 +86,38 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="DIV":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
+
     if rule=="SET":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name
     if rule=="PRINT":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name
+
+    if rule=="EGAL_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="NOTEGAL_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="MORE_EGAL_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="MORE_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="LESS_EGAL_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="LESS_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="AND_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="OR_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
 
     currentNode = node(nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2)
     return currentNode

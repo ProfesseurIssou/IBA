@@ -1,6 +1,7 @@
 import re
 
 tokenType = {
+    "COMMENT":"[#].+",
     "VARIABLE":"%[a-zA-Z0-9]{,}%",
     "STRING":"[\"|\'].+[\"|\']",
     "LETTER":"[a-zA-Z]+",
@@ -12,7 +13,10 @@ tokenType = {
     "EGAL":"[=]",
     "SPACE":"[ ]",
     "OPEN_PARENTHESIS":"[(]",
-    "CLOSE_PARENTHESIS":"[)]"
+    "CLOSE_PARENTHESIS":"[)]",
+    "EXCLAMATION_DOT":"[!]",
+    "OPEN_GUILLEMET":"[<]",
+    "CLOSE_GUILLEMET":"[>]"
 }
 
 keywords = {
@@ -25,6 +29,30 @@ keywords = {
     "SET":[
         ["VARIABLE","EGAL"],
         ["VARIABLE","SPACE","EGAL"]
+    ],
+    "EGAL_TO_CONDITION":[
+        ["EGAL","EGAL"]
+    ],
+    "NOTEGAL_TO_CONDITION":[
+        ["EXCLAMATION_DOT","EGAL"]
+    ],
+    "MORE_EGAL_THAN_CONDITION":[
+        ["CLOSE_GUILLEMET","EGAL"]
+    ],
+    "MORE_THAN_CONDITION":[
+        ["CLOSE_GUILLEMET"]
+    ],
+    "LESS_EGAL_THAN_CONDITION":[
+        ["OPEN_GUILLEMET","EGAL"]
+    ],
+    "LESS_THAN_CONDITION":[
+        ["OPEN_GUILLEMET"]
+    ],
+    "AND_CONDITION":[
+        [["LETTER","AND"]]
+    ],
+    "OR_CONDITION":[
+        [["LETTER","OR"]]
     ]
 }
 #NOMBRE NEGATIF

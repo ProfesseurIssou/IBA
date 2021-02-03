@@ -14,6 +14,13 @@ def PRINT(eval):
     print(eval[str(len(eval)-2)])
     return
 
+def CONDITION(eval,variables):
+    #Si la condition est vrai
+    if eval[str(len(eval)-2)] == 1:
+        #On passe a l'indentation superieur
+        variables["%IDENTATION%"]+=1
+    return variables
+
 
 
 def execute(eval,variables):
@@ -23,5 +30,7 @@ def execute(eval,variables):
         variables = SET(eval,variables)
     if instructionType == "PRINT":
         PRINT(eval)
+    if instructionType == "CONDITION":
+        variables = CONDITION(eval,variables)
         
     return variables

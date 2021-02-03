@@ -41,10 +41,9 @@ def test2():
 
 def test3():
     instructionList = [
-        "%test% = (5+5)*2",
-        "print %test%"
+        "if 5 == 5:"
     ]
-    variables = {}
+    variables = {"%IDENTATION%":0}
     for instruction in instructionList:
         tokens = Lexer.Gen(instruction)
         #On separe le sens d'execution des token
