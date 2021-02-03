@@ -20,15 +20,19 @@ tokenType = {
 }
 
 keywords = {
-    "CONDITION":[
-        [["LETTER","if"],"SPACE"]
-    ],
     "PRINT":[
         [["LETTER","print"],"SPACE"]
+    ],
+    "SPEAK":[
+        [["LETTER","speak"],"SPACE"]
     ],
     "SET":[
         ["VARIABLE","EGAL"],
         ["VARIABLE","SPACE","EGAL"]
+    ],
+    
+    "CONDITION":[
+        [["LETTER","if"],"SPACE"]
     ],
     "EGAL_TO_CONDITION":[
         ["EGAL","EGAL"]

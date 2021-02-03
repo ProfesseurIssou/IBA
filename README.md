@@ -1,23 +1,23 @@
 # ICA
 
-##Comment
+## Comment
 	#Some text
 
-##Data type
+## Data type
 	String => "azerty" <=> 'azerty'
 	Number => 15 => 0.5
 
-##Variables
-	%MaVar%
+## Variables
+	%MyVar%
 
-##Set variable
-	%MaVar% = 15
-	%MaVar2% = "test"
+## Set variable
+	%MyVar% = 15
+	%MyVar2% = "test"
 
-##Calcul priority
-	%MaVar3% = (5+5)*2
+## Calcul priority
+	%MyVar3% = (5+5)*2
 
-##Condition
+## Condition
 	if condition:
 		#Some code
 
@@ -30,5 +30,9 @@
 	And: x AND y
 	Or: x OR y
 
-##Default variable
+## Default variable
 	%INDENTATION%	#Current condition level
+
+## Speak
+	speak %MyText%
+	speak "Hello World"

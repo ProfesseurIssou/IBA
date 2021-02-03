@@ -1,4 +1,5 @@
-
+import pyttsx3 #Text to speech
+engine = pyttsx3.init()#on init le convertisseur text->vocal
 
 def SET(eval,variables):
     #On prend l'instruction, on eleve les espace, on coupe a partir de "=" et on prend le nom de la variable
@@ -21,7 +22,12 @@ def CONDITION(eval,variables):
         variables["%IDENTATION%"]+=1
     return variables
 
-
+def SPEAK(eval):
+    #On lance l'audio
+    engine.say(str(eval[str(len(eval)-2)]))
+    #On lance est on attend
+    engine.runAndWait()
+    return
 
 def execute(eval,variables):
     #On recupere le type de l'instruction
@@ -32,5 +38,7 @@ def execute(eval,variables):
         PRINT(eval)
     if instructionType == "CONDITION":
         variables = CONDITION(eval,variables)
+    if instructionType == "SPEAK":
+        SPEAK(eval)
         
     return variables

@@ -41,7 +41,8 @@ def test2():
 
 def test3():
     instructionList = [
-        "if 5 == 5:"
+        '%MyText% = "Hello Worlds"',
+        'speak %MyText%'
     ]
     variables = {"%IDENTATION%":0}
     for instruction in instructionList:
