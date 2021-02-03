@@ -1,5 +1,9 @@
+#pip install SpeechRecognition,PyAudio
+import speech_recognition
+
 import pyttsx3 #Text to speech
 engine = pyttsx3.init()#on init le convertisseur text->vocal
+
 
 def SET(eval,variables):
     #On prend l'instruction, on eleve les espace, on coupe a partir de "=" et on prend le nom de la variable
@@ -29,6 +33,24 @@ def SPEAK(eval):
     engine.runAndWait()
     return
 
+def LISTEN(eval,variables):
+    #voir la qualité micro
+    r = speech_recognition.Recognizer()
+    with speech_recognition.Microphone() as source:
+        r.adjust_for_ambient_noise(source,0.5)
+        r.pause_threshold = 1 #temp d'attente d'une commande utilisateur
+        audio = r.listen(source)
+    try:
+        query = r.recognize_google(audio,language="fr-FR")
+    except:
+        query = "None"
+    
+    #On prend le resultat audio et on le met dans les variable
+    variables[eval['0'].value] = query
+    return variables
+
+
+
 def execute(eval,variables):
     #On recupere le type de l'instruction
     instructionType = eval[str(len(eval)-1)].type
@@ -40,5 +62,7 @@ def execute(eval,variables):
         variables = CONDITION(eval,variables)
     if instructionType == "SPEAK":
         SPEAK(eval)
+    if instructionType == "LISTEN":
+        LISTEN(eval,variables)
         
     return variables

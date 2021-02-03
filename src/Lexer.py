@@ -26,11 +26,15 @@ keywords = {
     "SPEAK":[
         [["LETTER","speak"],"SPACE"]
     ],
+    "LISTEN":[
+        [["LETTER","listen"],"SPACE","VARIABLE"]
+    ],
+
     "SET":[
         ["VARIABLE","EGAL"],
         ["VARIABLE","SPACE","EGAL"]
     ],
-    
+
     "CONDITION":[
         [["LETTER","if"],"SPACE"]
     ],

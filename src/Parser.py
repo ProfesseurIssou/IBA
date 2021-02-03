@@ -21,6 +21,7 @@ RULES = {
     "SET":["SET","NODE"],
     "PRINT":["PRINT","NODE"],
     "SPEAK":["SPEAK","NODE"],
+    "LISTEN":["LISTEN"],
 
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
@@ -46,7 +47,7 @@ PRIORITY = [
     ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],
     ["AND_CONDITION","OR_CONDITION"],
     ["PARENTHESIS"],
-    ["SET","PRINT","CONDITION","SPEAK"]
+    ["SET","PRINT","CONDITION","SPEAK","LISTEN"]
 ]
 
 
@@ -98,6 +99,9 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="PRINT":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name
+    if rule=="LISTEN":
+        #On prend la variable dans la quelle il faut stocker
+        nodeValue = tokens[0][1].split(" ")[1]
 
     if rule=="EGAL_CONDITION":
         nodeNameInput1 = tokens[0][1].name

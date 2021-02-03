@@ -36,3 +36,6 @@
 ## Speak
 	speak %MyText%
 	speak "Hello World"
+
+## Listen
+	listen %InputText%

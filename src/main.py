@@ -41,7 +41,7 @@ def test2():
 
 def test3():
     instructionList = [
-        '%MyText% = "Hello Worlds"',
+        'listen %MyText%',
         'speak %MyText%'
     ]
     variables = {"%IDENTATION%":0}
