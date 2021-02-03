@@ -8,6 +8,8 @@ def calc(syntax_tree,nodeName,variables):
         syntax_tree[nodeName] = float(node.value)
     if node.type == "STRING":
         syntax_tree[nodeName] = str(node.value)
+    if node.type == "PARENTHESIS":
+        syntax_tree[nodeName] = syntax_tree[node.nameNode1]
     if node.type == "ADD":
         syntax_tree[nodeName] = syntax_tree[node.nameNode1] + syntax_tree[node.nameNode2]
     if node.type == "SUB":

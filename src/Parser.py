@@ -25,12 +25,14 @@ RULES = {
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
     "DIV":["NODE","DIV","NODE"],
-    "MUL":["NODE","MUL","NODE"]
+    "MUL":["NODE","MUL","NODE"],
+    "PARENTHESIS":["OPEN_PARENTHESIS","NODE","CLOSE_PARENTHESIS"]
 }
 PRIORITY = [
     ["NUMBER","VARIABLE","STRING"],# 1=en premier
     ["MUL","DIV"],# 2=en deuxieme
     ["ADD","SUB"],
+    ["PARENTHESIS"],
     ["SET","PRINT"]
 ]
 
@@ -61,11 +63,7 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="STRING":
         #On retire les " et ' de la valeur
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
-    if rule=="SET":
-        nodeValue = tokens[0][1]
-        nodeNameInput1 = tokens[1][1].name
-    if rule=="PRINT":
-        nodeValue = tokens[0][1]
+    if rule=="PARENTHESIS":
         nodeNameInput1 = tokens[1][1].name
     if rule=="ADD":
         nodeNameInput1 = tokens[0][1].name
@@ -79,6 +77,12 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="DIV":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
+    if rule=="SET":
+        nodeValue = tokens[0][1]
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="PRINT":
+        nodeValue = tokens[0][1]
+        nodeNameInput1 = tokens[1][1].name
 
     currentNode = node(nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2)
     return currentNode

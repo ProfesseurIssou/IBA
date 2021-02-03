@@ -10,7 +10,9 @@ tokenType = {
     "MUL":"[*]",
     "DIV":"[/]",
     "EGAL":"[=]",
-    "SPACE":"[ ]"
+    "SPACE":"[ ]",
+    "OPEN_PARENTHESIS":"[(]",
+    "CLOSE_PARENTHESIS":"[)]"
 }
 
 keywords = {
