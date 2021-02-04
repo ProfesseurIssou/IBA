@@ -2,21 +2,27 @@ import re
 
 tokenType = {
     "COMMENT":"[#].+",
+
     "VARIABLE":"%[a-zA-Z0-9]{,}%",
+
     "STRING":"[\"|\'].+[\"|\']",
     "LETTER":"[a-zA-Z]+",
-    "NUMBER":"[0-9\.]+",
+    "NUMBER":r"[0-9\.]+",
+
     "PLUS":"[+]",
     "MINUS":"[-]",
     "MUL":"[*]",
     "DIV":"[/]",
+
     "EGAL":"[=]",
-    "SPACE":"[ ]",
-    "OPEN_PARENTHESIS":"[(]",
-    "CLOSE_PARENTHESIS":"[)]",
     "EXCLAMATION_DOT":"[!]",
     "OPEN_GUILLEMET":"[<]",
-    "CLOSE_GUILLEMET":"[>]"
+    "CLOSE_GUILLEMET":"[>]",
+
+    "SPACE":"[ ]",
+
+    "OPEN_PARENTHESIS":"[(]",
+    "CLOSE_PARENTHESIS":"[)]"
 }
 
 keywords = {
@@ -33,6 +39,13 @@ keywords = {
     "SET":[
         ["VARIABLE","EGAL"],
         ["VARIABLE","SPACE","EGAL"]
+    ],
+
+    "TO_STRING":[
+        [["LETTER","str"],"OPEN_PARENTHESIS"]
+    ],
+    "TO_NUMBER":[
+        [["LETTER","num"],"OPEN_PARENTHESIS"]
     ],
 
     "CONDITION":[

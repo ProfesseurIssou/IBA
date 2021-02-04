@@ -41,8 +41,9 @@ def test2():
 
 def test3():
     instructionList = [
-        'listen %MyText%',
-        'speak %MyText%'
+        '%age% = 20',
+        '%result% = %age% + num("80")',
+        'print "tu a " + str(%age%)'
     ]
     variables = {"%IDENTATION%":0}
     for instruction in instructionList:

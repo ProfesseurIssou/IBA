@@ -7,6 +7,10 @@
 	String => "azerty" <=> 'azerty'
 	Number => 15 => 0.5
 
+## Change data type
+	%MyVar% = str(10)	#num->str
+	%MyVar% = num("10")	#str->num
+
 ## Variables
 	%MyVar%
 

@@ -12,6 +12,11 @@ def calc(syntax_tree,nodeName,variables):
     if node.type == "PARENTHESIS":
         syntax_tree[nodeName] = syntax_tree[node.nameNode1]
 
+    if node.type == "TO_STRING":
+        syntax_tree[nodeName] = str(syntax_tree[node.nameNode1])
+    if node.type == "TO_NUMBER":
+        syntax_tree[nodeName] = float(syntax_tree[node.nameNode1])
+
     if node.type == "ADD":
         syntax_tree[nodeName] = syntax_tree[node.nameNode1] + syntax_tree[node.nameNode2]
     if node.type == "SUB":

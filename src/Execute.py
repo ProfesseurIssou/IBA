@@ -38,7 +38,7 @@ def LISTEN(eval,variables):
     r = speech_recognition.Recognizer()
     with speech_recognition.Microphone() as source:
         r.adjust_for_ambient_noise(source,0.5)
-        r.pause_threshold = 1 #temp d'attente d'une commande utilisateur
+        r.pause_threshold = 0.5 #temp d'attente d'une commande utilisateur
         audio = r.listen(source)
     try:
         query = r.recognize_google(audio,language="fr-FR")

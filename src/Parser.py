@@ -28,6 +28,9 @@ RULES = {
     "DIV":["NODE","DIV","NODE"],
     "MUL":["NODE","MUL","NODE"],
 
+    "TO_STRING":["TO_STRING","NODE","CLOSE_PARENTHESIS"],
+    "TO_NUMBER":["TO_NUMBER","NODE","CLOSE_PARENTHESIS"],
+
     "PARENTHESIS":["OPEN_PARENTHESIS","NODE","CLOSE_PARENTHESIS"],
 
     "CONDITION":["CONDITION","NODE"],
@@ -42,7 +45,8 @@ RULES = {
 }
 PRIORITY = [
     ["NUMBER","VARIABLE","STRING"],# 1=en premier
-    ["MUL","DIV"],# 2=en deuxieme
+    ["TO_STRING","TO_NUMBER"],# 2=en deuxieme
+    ["MUL","DIV"],
     ["ADD","SUB"],
     ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],
     ["AND_CONDITION","OR_CONDITION"],
@@ -77,9 +81,15 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="STRING":
         #On retire les " et ' de la valeur
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
+
     if rule=="PARENTHESIS":
         nodeNameInput1 = tokens[1][1].name
 
+    if rule=="TO_STRING":
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="TO_NUMBER":
+        nodeNameInput1 = tokens[1][1].name
+    
     if rule=="ADD":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
@@ -157,10 +167,17 @@ def parse(tokens):
     priorityLevel = 0
     #tant qu'on n'a pas fait tout les modification de toute les priorité
     while priorityLevel != len(PRIORITY):
+        #Nombre de token
+        nbToken = len(tokens)
         #Pour chaque tokens
-        for xToken,token in enumerate(tokens):
+        for xToken in range(nbToken):
             #Pour chaque règles de la priorité
             for rule in PRIORITY[priorityLevel]:
+                #Nombre de token restant
+                nbToken = len(tokens)
+                #Si on depasse le nombre de token (du a la suppression par la creation d'une node)
+                if xToken > nbToken:
+                    break
                 #Nombre de regle a respecter
                 nbRulePart = len(RULES[rule])
                 #Nombre de regle respecter
