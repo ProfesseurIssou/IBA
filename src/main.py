@@ -1,5 +1,7 @@
 import Lexer, Parser, Eval, Execute
 
+#Pour les goto_line mettre dans une variable tout le fichier et une autre pour la ligne actuel pour changer de ligne
+
 def test1():
     instruction = "%maVar% = 93+98"
     instruction1 = "%maVar% = 93+98/50-%z%"
@@ -41,9 +43,7 @@ def test2():
 
 def test3():
     instructionList = [
-        '%age% = 20',
-        '%result% = %age% + num("80")',
-        'print "tu a " + str(%age%)'
+        'exec("D:/media/Images/91F1cfbTsGL._AC_SL1500_.jpg")'
     ]
     variables = {"%IDENTATION%":0}
     for instruction in instructionList:

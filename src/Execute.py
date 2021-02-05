@@ -1,6 +1,6 @@
 #pip install SpeechRecognition,PyAudio
 import speech_recognition
-
+import os
 import pyttsx3 #Text to speech
 engine = pyttsx3.init()#on init le convertisseur text->vocal
 
@@ -32,7 +32,6 @@ def SPEAK(eval):
     #On lance est on attend
     engine.runAndWait()
     return
-
 def LISTEN(eval,variables):
     #voir la qualité micro
     r = speech_recognition.Recognizer()
@@ -49,20 +48,29 @@ def LISTEN(eval,variables):
     variables[eval['0'].value] = query
     return variables
 
-
+def EXECUTE(eval):
+    filePath = str(eval[str(len(eval)-2)])
+    os.system(filePath)
+    return
 
 def execute(eval,variables):
     #On recupere le type de l'instruction
     instructionType = eval[str(len(eval)-1)].type
     if instructionType == "SET":
         variables = SET(eval,variables)
+
     if instructionType == "PRINT":
         PRINT(eval)
+
     if instructionType == "CONDITION":
         variables = CONDITION(eval,variables)
+
     if instructionType == "SPEAK":
         SPEAK(eval)
     if instructionType == "LISTEN":
         LISTEN(eval,variables)
+
+    if instructionType == "EXECUTE":
+        EXECUTE(eval)
         
     return variables

@@ -31,6 +31,8 @@ RULES = {
     "TO_STRING":["TO_STRING","NODE","CLOSE_PARENTHESIS"],
     "TO_NUMBER":["TO_NUMBER","NODE","CLOSE_PARENTHESIS"],
 
+    "EXECUTE":["EXECUTE","NODE","CLOSE_PARENTHESIS"],
+
     "PARENTHESIS":["OPEN_PARENTHESIS","NODE","CLOSE_PARENTHESIS"],
 
     "CONDITION":["CONDITION","NODE"],
@@ -44,14 +46,14 @@ RULES = {
     "OR_CONDITION":["NODE","OR_CONDITION","NODE"]
 }
 PRIORITY = [
-    ["NUMBER","VARIABLE","STRING"],# 1=en premier
-    ["TO_STRING","TO_NUMBER"],# 2=en deuxieme
-    ["MUL","DIV"],
-    ["ADD","SUB"],
-    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],
-    ["AND_CONDITION","OR_CONDITION"],
-    ["PARENTHESIS"],
-    ["SET","PRINT","CONDITION","SPEAK","LISTEN"]
+    ["NUMBER","VARIABLE","STRING"],#TYPE DE DONNEE (1=en premier)
+    ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
+    ["MUL","DIV"],#CALCUL
+    ["ADD","SUB"],#CALCUL
+    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],#CONDITION
+    ["AND_CONDITION","OR_CONDITION"],#CONDITION
+    ["PARENTHESIS"],#PRIORITER
+    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE"]#INSTRUCTION
 ]
 
 
@@ -88,6 +90,9 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="TO_STRING":
         nodeNameInput1 = tokens[1][1].name
     if rule=="TO_NUMBER":
+        nodeNameInput1 = tokens[1][1].name
+
+    if rule=="EXECUTE":
         nodeNameInput1 = tokens[1][1].name
     
     if rule=="ADD":

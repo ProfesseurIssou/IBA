@@ -48,6 +48,10 @@ keywords = {
         [["LETTER","num"],"OPEN_PARENTHESIS"]
     ],
 
+    "EXECUTE":[
+        [["LETTER","exec"],"OPEN_PARENTHESIS"]
+    ],
+
     "CONDITION":[
         [["LETTER","if"],"SPACE"]
     ],
@@ -76,7 +80,6 @@ keywords = {
         [["LETTER","OR"]]
     ]
 }
-#NOMBRE NEGATIF
 
 def keywordChecker(tokens_list):
     """

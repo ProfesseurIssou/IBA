@@ -43,3 +43,6 @@
 
 ## Listen
 	listen %InputText%
+
+## Execute file
+	exect("path/to/my/file.exe")
