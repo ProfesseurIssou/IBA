@@ -15,6 +15,7 @@ IGNORE = [
 #Regle des noeuds (node est un noeud calculer)
 RULES = {
     "NUMBER":["NUMBER"],
+    "NEGATIVE_NUMBER":["OPEN_PARENTHESIS","MINUS","NUMBER","CLOSE_PARENTHESIS"],
     "STRING":["STRING"],
     "VARIABLE":["VARIABLE"],
 
@@ -46,7 +47,7 @@ RULES = {
     "OR_CONDITION":["NODE","OR_CONDITION","NODE"]
 }
 PRIORITY = [
-    ["NUMBER","VARIABLE","STRING"],#TYPE DE DONNEE (1=en premier)
+    ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER"],#TYPE DE DONNEE (1=en premier)
     ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
     ["MUL","DIV"],#CALCUL
     ["ADD","SUB"],#CALCUL
@@ -78,6 +79,9 @@ def nodeMaker(syntaxTree,rule,tokens):
 
     if rule=="NUMBER":
         nodeValue = tokens[0][1]
+    if rule=="NEGATIVE_NUMBER":
+        nodeType = "NUMBER"
+        nodeValue = -float(tokens[2][1])
     if rule=="VARIABLE":
         nodeValue = tokens[0][1]
     if rule=="STRING":

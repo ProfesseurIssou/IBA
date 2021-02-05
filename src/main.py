@@ -43,7 +43,8 @@ def test2():
 
 def test3():
     instructionList = [
-        'exec("D:/media/Images/91F1cfbTsGL._AC_SL1500_.jpg")'
+        '%test% = (-12)',
+        'print %test%-(-10)'
     ]
     variables = {"%IDENTATION%":0}
     for instruction in instructionList:
