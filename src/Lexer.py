@@ -26,6 +26,10 @@ tokenType = {
 }
 
 keywords = {
+    "NONE_TYPE":[
+        [["LETTER","None"]]
+    ],
+
     "PRINT":[
         [["LETTER","print"],"SPACE"]
     ],

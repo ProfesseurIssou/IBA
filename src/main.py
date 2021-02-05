@@ -43,8 +43,8 @@ def test2():
 
 def test3():
     instructionList = [
-        '%test% = (-12)',
-        'print %test%-(-10)'
+        '%test% = None',
+        'print %test%'
     ]
     variables = {"%IDENTATION%":0}
     for instruction in instructionList:

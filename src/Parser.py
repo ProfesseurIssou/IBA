@@ -17,6 +17,7 @@ RULES = {
     "NUMBER":["NUMBER"],
     "NEGATIVE_NUMBER":["OPEN_PARENTHESIS","MINUS","NUMBER","CLOSE_PARENTHESIS"],
     "STRING":["STRING"],
+    "NONE_TYPE":["NONE_TYPE"],
     "VARIABLE":["VARIABLE"],
 
     "SET":["SET","NODE"],
@@ -47,7 +48,7 @@ RULES = {
     "OR_CONDITION":["NODE","OR_CONDITION","NODE"]
 }
 PRIORITY = [
-    ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER"],#TYPE DE DONNEE (1=en premier)
+    ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER","NONE_TYPE"],#TYPE DE DONNEE (1=en premier)
     ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
     ["MUL","DIV"],#CALCUL
     ["ADD","SUB"],#CALCUL
@@ -82,11 +83,13 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="NEGATIVE_NUMBER":
         nodeType = "NUMBER"
         nodeValue = -float(tokens[2][1])
-    if rule=="VARIABLE":
-        nodeValue = tokens[0][1]
     if rule=="STRING":
         #On retire les " et ' de la valeur
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
+    if rule=="NONE_TYPE":
+        nodeValue = None
+    if rule=="VARIABLE":
+        nodeValue = tokens[0][1]
 
     if rule=="PARENTHESIS":
         nodeNameInput1 = tokens[1][1].name
