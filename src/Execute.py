@@ -23,7 +23,7 @@ def CONDITION(eval,variables):
     #Si la condition est vrai
     if eval[str(len(eval)-2)] == 1:
         #On passe a l'indentation superieur
-        variables["%IDENTATION%"]+=1
+        variables["%INDENTATION%"]+=1
     return variables
 
 def SPEAK(eval):

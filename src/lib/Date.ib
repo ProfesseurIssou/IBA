@@ -1,0 +1,1 @@
+speak "Nous somme le " + str(%day%) +" "+ str(%month%) +" "+ str(%year%)

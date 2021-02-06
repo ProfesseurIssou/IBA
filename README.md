@@ -6,6 +6,7 @@
 ## Data type
 	String => "azerty" <=> 'azerty'
 	Number => 15 => 0.5
+	None => None
 
 ## Change data type
 	%MyVar% = str(10)	#num->str
@@ -46,3 +47,6 @@
 
 ## Execute file
 	exect("path/to/my/file.exe")
+
+## Configure file (lib/Default.json)
+	"MyTriggerWord":"ConfigFilePath.ib",

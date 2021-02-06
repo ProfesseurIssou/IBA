@@ -1,0 +1,1 @@
+speak "il est actuelement" + str(%hour%) + "heures " + str(%minute%) + "minutes et"+ str(%second%)+"secondes"
