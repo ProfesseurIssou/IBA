@@ -1,5 +1,8 @@
 # ICA (1.0.0)
 
+## Configure file (lib/Default.json)
+	"MyTriggerWord":"ConfigFilePath.ib",
+	
 ## Comment
 	#Some text
 
@@ -48,5 +51,6 @@
 ## Execute file
 	exect("path/to/my/file.exe")
 
-## Configure file (lib/Default.json)
-	"MyTriggerWord":"ConfigFilePath.ib",
+## Open web site on browser
+	openBrowser("PathToTheBrowser","PUBLIC","URL")
+	openBrowser("PathToTheBrowser","PRIVATE","URL")

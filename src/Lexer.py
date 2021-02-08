@@ -5,7 +5,7 @@ tokenType = {
 
     "VARIABLE":"%[a-zA-Z0-9]{,}%",
 
-    "STRING":"[\"|\'].+[\"|\']",
+    "STRING":"[\"|\'].+?[\"|\']",
     "LETTER":"[a-zA-Z]+",
     "NUMBER":r"[0-9\.]+",
 
@@ -19,8 +19,8 @@ tokenType = {
     "EXCLAMATION_DOT":"[!]",
     "OPEN_GUILLEMET":"[<]",
     "CLOSE_GUILLEMET":"[>]",
-
     "DOUBLE_POINT":"[:]",
+    "COMMA":"[,]",
 
     "SPACE":"[ ]",
 
@@ -57,6 +57,9 @@ keywords = {
 
     "EXECUTE":[
         [["LETTER","exec"],"OPEN_PARENTHESIS"]
+    ],
+    "OPEN_BROWSER":[
+        [["LETTER","openBrowser"],"OPEN_PARENTHESIS"]
     ],
 
     "CONDITION":[
@@ -181,7 +184,7 @@ def Gen(Instruction):
                     findToken = re.findall(tokenType[tokenName],token)
                     #Si on à trouvé
                     if findToken != []:
-                        #On prend uniquement le premier
+                        #On prend uniquement le premier et sans les guillemet
                         findToken = findToken[0]
                         #On a modifier quelque chose
                         changed = True

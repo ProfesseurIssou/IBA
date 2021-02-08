@@ -25,6 +25,7 @@ RULES = {
     "PRINT":["PRINT","NODE"],
     "SPEAK":["SPEAK","NODE"],
     "LISTEN":["LISTEN"],
+    "OPEN_BROWSER":["OPEN_BROWSER","NODE","COMMA","NODE","COMMA","NODE","CLOSE_PARENTHESIS"],
 
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
@@ -56,12 +57,12 @@ PRIORITY = [
     ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],#CONDITION
     ["AND_CONDITION","OR_CONDITION"],#CONDITION
     ["PARENTHESIS"],#PRIORITER
-    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE"]#INSTRUCTION
+    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER"]#INSTRUCTION
 ]
 
 
 class node:
-    def __init__(self,nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2):
+    def __init__(self,nodeName,nodeType,nodeValue,nodeNameInput1=None,nodeNameInput2=None,nodeNameInput3=None):
         #Nom du noeud (selon la taille de l'arbre syntaxique)
         self.name = nodeName
         #Type du noeud (VARIABLE, NUMBER, EGAL, PLUS, MINUS, DIV, MUL)
@@ -71,6 +72,7 @@ class node:
         #Nom des node input
         self.nameNode1 = nodeNameInput1
         self.nameNode2 = nodeNameInput2
+        self.nameNode3 = nodeNameInput3
 
 def nodeMaker(syntaxTree,rule,tokens):
     nodeName = str(len(syntaxTree))
@@ -78,6 +80,7 @@ def nodeMaker(syntaxTree,rule,tokens):
     nodeValue = None
     nodeNameInput1 = None
     nodeNameInput2 = None
+    nodeNameInput3 = None
 
     if rule=="NUMBER":
         nodeValue = tokens[0][1]
@@ -126,6 +129,11 @@ def nodeMaker(syntaxTree,rule,tokens):
         #On prend la variable dans la quelle il faut stocker
         nodeValue = tokens[0][1].split(" ")[1]
 
+    if rule=="OPEN_BROWSER":
+        nodeNameInput1 = tokens[1][1].name
+        nodeNameInput2 = tokens[3][1].name
+        nodeNameInput3 = tokens[5][1].name
+
     if rule=="EGAL_CONDITION":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
@@ -151,7 +159,7 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
 
-    currentNode = node(nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2)
+    currentNode = node(nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2,nodeNameInput3)
     return currentNode
 
 def clearTokens(oldTokens):

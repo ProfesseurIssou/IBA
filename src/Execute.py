@@ -52,6 +52,17 @@ def EXECUTE(eval):
     filePath = str(eval[str(len(eval)-2)])
     os.system(filePath)
     return
+    
+def OPEN_BROWER(eval):
+    browserPath = eval[str(eval[str(len(eval)-1)].nameNode1)]
+    mode = eval[str(eval[str(len(eval)-1)].nameNode2)]
+    url = eval[str(eval[str(len(eval)-1)].nameNode3)]
+    if mode == "PUBLIC":
+        os.system('"'+browserPath+"\" "+url)
+    else:
+        os.system('"'+browserPath+"\" -incognito "+url)
+    return
+
 
 def execute(eval,variables):
     #On recupere le type de l'instruction
@@ -72,5 +83,8 @@ def execute(eval,variables):
 
     if instructionType == "EXECUTE":
         EXECUTE(eval)
+    
+    if instructionType == "OPEN_BROWSER":
+        OPEN_BROWER(eval)
         
     return variables
