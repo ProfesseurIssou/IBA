@@ -1,8 +1,8 @@
-# ICA (1.0.0)
+# ICA (1.2.0)
 
 ## Configure file (lib/Default.json)
 	"MyTriggerWord":"ConfigFilePath.ib",
-	
+
 ## Comment
 	#Some text
 
@@ -37,6 +37,7 @@
 	Less egal than: x <=y
 	And: x AND y
 	Or: x OR y
+	In: x in y
 
 ## Default variable
 	%INDENTATION%	#Current condition level

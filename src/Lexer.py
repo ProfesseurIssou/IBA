@@ -88,6 +88,9 @@ keywords = {
     ],
     "OR_CONDITION":[
         [["LETTER","OR"]]
+    ],
+    "IN_CONDITION":[
+        [["LETTER","IN"]]
     ]
 }
 

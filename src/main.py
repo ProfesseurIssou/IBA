@@ -78,7 +78,7 @@ def execute_Instruction(Instruction_List,query):
         
         #On verifie si l'indentation correspond
         #Si elle est trop haute (une condition n'est pas passer)
-        if Instruction.count("\t") > Addon_Variable["%INDENTATION%"]:
+        if Instruction.count("\t") > Addon_Variable["%INDENTATION%"] or Instruction.count("    ") > Addon_Variable["%INDENTATION%"]:
             #Si on a fini le dernier fichier d'instruction
             if len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
                 #On enleve le dernier fichier de la liste
@@ -91,20 +91,22 @@ def execute_Instruction(Instruction_List,query):
                 Addon_Variable["INSTRUCTION_INDEX"][-1] += 1
             #On passe a la suivante
             continue
-        #Sinon Si on est a la de la condution
+        #Sinon Si on est a la de la condition
         elif Instruction.count("\t") < Addon_Variable["%INDENTATION%"]:
             #On baisse l'indentation
             Addon_Variable["%INDENTATION%"] = Instruction.count("\t")
         #On reture les tab et les passage a la ligne de l'instruction
         Instruction = Instruction.replace("\t","").replace("\n","")
-        #On genere les tokens de l'instruction
-        tokens = Lexer.Gen(Instruction)
-        #On separe le sens d'instruction des tokens
-        syntaxTree = Parser.parse(tokens)
-        #On calcul
-        eval = Eval.eval(syntaxTree,Addon_Variable)
-        #On execute l'instruction
-        Addon_Variable = Execute.execute(eval,Addon_Variable)
+        #Si la ligne n'est pas un commentaire
+        if Instruction[0] != "#":
+            #On genere les tokens de l'instruction
+            tokens = Lexer.Gen(Instruction)
+            #On separe le sens d'instruction des tokens
+            syntaxTree = Parser.parse(tokens)
+            #On calcul
+            eval = Eval.eval(syntaxTree,Addon_Variable)
+            #On execute l'instruction
+            Addon_Variable = Execute.execute(eval,Addon_Variable)
 
         #Si on a fini le dernier fichier d'instruction
         if len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
@@ -122,7 +124,7 @@ if __name__ == "__main__":
     while 1:
         #On ecoute
         # query = unidecode.unidecode(listen().lower())
-        query = "recherche"
+        query = "search"
         print(query)
         #on cherche pour chaque mot de la query
         for word in query.split(" "):

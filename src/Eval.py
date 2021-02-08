@@ -44,6 +44,8 @@ def calc(syntax_tree,nodeName,variables):
         syntax_tree[nodeName] = (syntax_tree[node.nameNode1] and syntax_tree[node.nameNode2])
     if node.type == "OR_CONDITION":
         syntax_tree[nodeName] = (syntax_tree[node.nameNode1] or syntax_tree[node.nameNode2])
+    if node.type == "IN_CONDITION":
+        syntax_tree[nodeName] = (syntax_tree[node.nameNode1] in syntax_tree[node.nameNode2])
 
     return syntax_tree
 

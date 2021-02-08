@@ -47,14 +47,15 @@ RULES = {
     "LESS_EGAL_CONDITION":["NODE","LESS_EGAL_THAN_CONDITION","NODE"],
     "LESS_CONDITION":["NODE","LESS_THAN_CONDITION","NODE"],
     "AND_CONDITION":["NODE","AND_CONDITION","NODE"],
-    "OR_CONDITION":["NODE","OR_CONDITION","NODE"]
+    "OR_CONDITION":["NODE","OR_CONDITION","NODE"],
+    "IN_CONDITION":["NODE","IN_CONDITION","NODE"]
 }
 PRIORITY = [
     ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER","NONE_TYPE"],#TYPE DE DONNEE (1=en premier)
     ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
     ["MUL","DIV"],#CALCUL
     ["ADD","SUB"],#CALCUL
-    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION"],#CONDITION
+    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION","IN_CONDITION"],#CONDITION
     ["AND_CONDITION","OR_CONDITION"],#CONDITION
     ["PARENTHESIS"],#PRIORITER
     ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER"]#INSTRUCTION
@@ -156,6 +157,9 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
     if rule=="OR_CONDITION":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="IN_CONDITION":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
 
