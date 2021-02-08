@@ -79,6 +79,16 @@ def execute_Instruction(Instruction_List,query):
         #On verifie si l'indentation correspond
         #Si elle est trop haute (une condition n'est pas passer)
         if Instruction.count("\t") > Addon_Variable["%INDENTATION%"]:
+            #Si on a fini le dernier fichier d'instruction
+            if len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
+                #On enleve le dernier fichier de la liste
+                del Addon_Variable["INSTRUCTION_FILE_LIST"][-1]
+                #On enleve le dernier index du dernier fichier de la liste
+                del Addon_Variable["INSTRUCTION_INDEX"][-1]
+            #Si on a encore des fichier
+            if Addon_Variable["INSTRUCTION_FILE_LIST"] != []:
+                #On augmente de 1 l'index du dernier fichier d'instruction
+                Addon_Variable["INSTRUCTION_INDEX"][-1] += 1
             #On passe a la suivante
             continue
         #Sinon Si on est a la de la condution
@@ -109,7 +119,6 @@ def execute_Instruction(Instruction_List,query):
     return
 
 if __name__ == "__main__":
-    
     while 1:
         #On ecoute
         query = unidecode.unidecode(listen().lower())

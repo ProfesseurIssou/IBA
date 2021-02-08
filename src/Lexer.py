@@ -14,10 +14,13 @@ tokenType = {
     "MUL":"[*]",
     "DIV":"[/]",
 
+    "DOUBLE_EGAL":"[=]{2}",
     "EGAL":"[=]",
     "EXCLAMATION_DOT":"[!]",
     "OPEN_GUILLEMET":"[<]",
     "CLOSE_GUILLEMET":"[>]",
+
+    "DOUBLE_POINT":"[:]",
 
     "SPACE":"[ ]",
 
@@ -60,7 +63,7 @@ keywords = {
         [["LETTER","if"],"SPACE"]
     ],
     "EGAL_TO_CONDITION":[
-        ["EGAL","EGAL"]
+        ["DOUBLE_EGAL"]
     ],
     "NOTEGAL_TO_CONDITION":[
         ["EXCLAMATION_DOT","EGAL"]
@@ -84,6 +87,7 @@ keywords = {
         [["LETTER","OR"]]
     ]
 }
+
 
 def keywordChecker(tokens_list):
     """

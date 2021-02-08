@@ -9,7 +9,8 @@
 
 #Token a ignoré
 IGNORE = [
-    ["SPACE"," "]
+    ["SPACE"," "],
+    ["DOUBLE_POINT",":"]
 ]
 
 #Regle des noeuds (node est un noeud calculer)
