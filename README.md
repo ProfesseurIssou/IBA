@@ -40,7 +40,14 @@
 	In: x in y
 
 ## Default variable
-	%INDENTATION%	#Current condition level
+	%INDENTATION%	#Current condition level 	(int)
+	%query%			#The first call words 		(string)
+	%year%			#Current year				(int)
+	%month%			#Current month				(int)
+	%day%			#Current day				(int)
+	%hour%			#Current hour				(int)
+	%minute%		#Current minute				(int)
+	%second%		#Current second				(int)
 
 ## Speak
 	speak %MyText%
