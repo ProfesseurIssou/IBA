@@ -32,6 +32,16 @@ keywords = {
     "NONE_TYPE":[
         [["LETTER","None"]]
     ],
+    "TRUE_BOOL_TYPE":[
+        [["LETTER","true"]],
+        [["LETTER","True"]],
+        [["LETTER","TRUE"]]
+    ],
+    "FALSE_BOOL_TYPE":[
+        [["LETTER","false"]],
+        [["LETTER","False"]],
+        [["LETTER","FALSE"]]
+    ],
 
     "PRINT":[
         [["LETTER","print"],"SPACE"]
@@ -56,7 +66,7 @@ keywords = {
     ],
 
     "EXECUTE":[
-        [["LETTER","exec"],"OPEN_PARENTHESIS"]
+        [["LETTER","run"],"OPEN_PARENTHESIS"]
     ],
     "OPEN_BROWSER":[
         [["LETTER","openBrowser"],"OPEN_PARENTHESIS"]
@@ -84,12 +94,15 @@ keywords = {
         ["OPEN_GUILLEMET"]
     ],
     "AND_CONDITION":[
+        [["LETTER","and"]],
         [["LETTER","AND"]]
     ],
     "OR_CONDITION":[
+        [["LETTER","or"]],
         [["LETTER","OR"]]
     ],
     "IN_CONDITION":[
+        [["LETTER","in"]],
         [["LETTER","IN"]]
     ]
 }

@@ -20,6 +20,8 @@ RULES = {
     "STRING":["STRING"],
     "NONE_TYPE":["NONE_TYPE"],
     "VARIABLE":["VARIABLE"],
+    "TRUE_BOOL_TYPE":["TRUE_BOOL_TYPE"],
+    "FALSE_BOOL_TYPE":["FALSE_BOOL_TYPE"],
 
     "SET":["SET","NODE"],
     "PRINT":["PRINT","NODE"],
@@ -51,7 +53,7 @@ RULES = {
     "IN_CONDITION":["NODE","IN_CONDITION","NODE"]
 }
 PRIORITY = [
-    ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER","NONE_TYPE"],#TYPE DE DONNEE (1=en premier)
+    ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER","NONE_TYPE","FALSE_BOOL_TYPE","TRUE_BOOL_TYPE"],#TYPE DE DONNEE (1=en premier)
     ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
     ["MUL","DIV"],#CALCUL
     ["ADD","SUB"],#CALCUL
@@ -93,6 +95,10 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeValue = tokens[0][1].replace("'","").replace('"',"")
     if rule=="NONE_TYPE":
         nodeValue = None
+    if rule=="FALSE_BOOL_TYPE":
+        nodeValue = False
+    if rule=="TRUE_BOOL_TYPE":
+        nodeValue = True
     if rule=="VARIABLE":
         nodeValue = tokens[0][1]
 
@@ -135,6 +141,8 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeNameInput2 = tokens[3][1].name
         nodeNameInput3 = tokens[5][1].name
 
+    if rule=="CONDITION":
+        nodeNameInput1 = tokens[1][1].name
     if rule=="EGAL_CONDITION":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name

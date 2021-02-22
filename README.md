@@ -1,4 +1,4 @@
-# ICA (1.2.0)
+# ICA (1.2.1)
 
 ## Configure file (lib/Default.json)
 	"MyTriggerWord":"ConfigFilePath.ib",
@@ -40,7 +40,14 @@
 	In: x in y
 
 ## Default variable
-	%INDENTATION%	#Current condition level
+	%INDENTATION%	#Current condition level 	(int)
+	%query%			#The first call words 		(string)
+	%year%			#Current year				(int)
+	%month%			#Current month				(int)
+	%day%			#Current day				(int)
+	%hour%			#Current hour				(int)
+	%minute%		#Current minute				(int)
+	%second%		#Current second				(int)
 
 ## Speak
 	speak %MyText%
@@ -50,7 +57,7 @@
 	listen %InputText%
 
 ## Execute file
-	exect("path/to/my/file.exe")
+	run("path/to/my/file.exe")
 
 ## Open web site on browser
 	openBrowser("PathToTheBrowser","PUBLIC","URL")

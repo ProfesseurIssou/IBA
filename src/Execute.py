@@ -50,7 +50,7 @@ def LISTEN(eval,variables):
 
 def EXECUTE(eval):
     filePath = str(eval[str(len(eval)-2)])
-    os.system(filePath)
+    os.popen(filePath)
     return
     
 def OPEN_BROWER(eval):

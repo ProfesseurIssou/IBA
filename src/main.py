@@ -123,8 +123,7 @@ def execute_Instruction(Instruction_List,query):
 if __name__ == "__main__":
     while 1:
         #On ecoute
-        # query = unidecode.unidecode(listen().lower())
-        query = "search"
+        query = unidecode.unidecode(listen().lower())
         print(query)
         #on cherche pour chaque mot de la query
         for word in query.split(" "):
