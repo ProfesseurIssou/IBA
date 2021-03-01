@@ -1,7 +1,19 @@
-# ICA (1.2.1)
+# ICA (1.3.0)
 
-## Configure file (lib/Default.json)
-	"MyTriggerWord":"ConfigFilePath.ib",
+## Configure file (lib/config.ib)
+### Simple example
+	...
+	if "myWord" in %query%:
+		goto "ConfigFilePath.ib"
+	...
+
+##Trigger Conditions
+
+	word => if the word in the query
+	!word => if the word is not in the query
+	word1 & word2 & ... => if word1 and word2 and ... is in the query
+	word1 | word2 | ... => if word1 or word2 or ... is in the query
+
 
 ## Comment
 	#Some text
@@ -9,6 +21,7 @@
 ## Data type
 	String => "azerty" <=> 'azerty'
 	Number => 15 => 0.5
+	bool => true false
 	None => None
 
 ## Change data type

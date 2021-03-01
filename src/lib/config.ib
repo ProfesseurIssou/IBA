@@ -1,0 +1,6 @@
+if "search" in %query%:
+    goto "Search.ib"
+if "date" in %query%:
+    goto "Date.ib"
+if "heure" in %query%
+    goto "Time.ib"

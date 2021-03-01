@@ -52,6 +52,9 @@ keywords = {
     "LISTEN":[
         [["LETTER","listen"],"SPACE","VARIABLE"]
     ],
+    "GOTO":[
+        [["LETTER","goto"],"SPACE"]
+    ],
 
     "SET":[
         ["VARIABLE","EGAL"],

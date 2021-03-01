@@ -23,14 +23,6 @@ def listen():
             query = None
     return query
 
-def search_addonFile(trigger):
-    with open("lib/Default.json") as json_file:
-        data = json.load(json_file)
-    #on verifie l'existance du trigger
-    if trigger in data.keys():
-        return data[trigger]
-    else:
-        return False
 def read_addonFile(File_Name):
     Addon_File = open("lib/"+str(File_Name),"r")
     Addon_Instruction = Addon_File.readlines()
@@ -108,8 +100,8 @@ def execute_Instruction(Instruction_List,query):
             #On execute l'instruction
             Addon_Variable = Execute.execute(eval,Addon_Variable)
 
-        #Si on a fini le dernier fichier d'instruction
-        if len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
+        #Tant que la liste n'est pas vide ET pour chaque fichiers parents, on est a la derniere instruction
+        while Addon_Variable["INSTRUCTION_FILE_LIST"] != [] and len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
             #On enleve le dernier fichier de la liste
             del Addon_Variable["INSTRUCTION_FILE_LIST"][-1]
             #On enleve le dernier index du dernier fichier de la liste
@@ -125,12 +117,6 @@ if __name__ == "__main__":
         #On ecoute
         query = unidecode.unidecode(listen().lower())
         print(query)
-        #on cherche pour chaque mot de la query
-        for word in query.split(" "):
-            File_Name = search_addonFile(word)
-            if File_Name == False:
-                continue
-            else:
-                Instructions = read_addonFile(File_Name)
-                execute_Instruction(Instructions,query)
-                continue
+        #On execute config.ib
+        Instructions = read_addonFile("config.ib")
+        execute_Instruction(Instructions,query)
