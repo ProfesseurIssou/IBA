@@ -7,14 +7,6 @@
 		goto "ConfigFilePath.ib"
 	...
 
-##Trigger Conditions
-
-	word => if the word in the query
-	!word => if the word is not in the query
-	word1 & word2 & ... => if word1 and word2 and ... is in the query
-	word1 | word2 | ... => if word1 or word2 or ... is in the query
-
-
 ## Comment
 	#Some text
 
