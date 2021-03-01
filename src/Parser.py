@@ -28,6 +28,7 @@ RULES = {
     "SPEAK":["SPEAK","NODE"],
     "LISTEN":["LISTEN"],
     "OPEN_BROWSER":["OPEN_BROWSER","NODE","COMMA","NODE","COMMA","NODE","CLOSE_PARENTHESIS"],
+    "GOTO":["GOTO","NODE"],
 
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
@@ -60,7 +61,7 @@ PRIORITY = [
     ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION","IN_CONDITION"],#CONDITION
     ["AND_CONDITION","OR_CONDITION"],#CONDITION
     ["PARENTHESIS"],#PRIORITER
-    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER"]#INSTRUCTION
+    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER","GOTO"]#INSTRUCTION
 ]
 
 
@@ -135,6 +136,8 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="LISTEN":
         #On prend la variable dans la quelle il faut stocker
         nodeValue = tokens[0][1].split(" ")[1]
+    if rule=="GOTO":
+        nodeValue = tokens[1][1].value
 
     if rule=="OPEN_BROWSER":
         nodeNameInput1 = tokens[1][1].name

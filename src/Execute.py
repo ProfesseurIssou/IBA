@@ -2,6 +2,7 @@
 import speech_recognition
 import os
 import pyttsx3 #Text to speech
+from main import read_addonFile
 engine = pyttsx3.init()#on init le convertisseur text->vocal
 
 
@@ -48,6 +49,15 @@ def LISTEN(eval,variables):
     variables[eval['0'].value] = query
     return variables
 
+def GOTO(eval,variables):
+    #On recupere le fichier a charger
+    newAddonFile = str(eval[str(len(eval)-1)].value)
+    #On ajoute l'index du nouveau fichier (0, premiere ligne donc -1 comme on vas passer a l'instruction suivante)
+    variables["INSTRUCTION_INDEX"].append(-1)
+    #On ajoute les instruction du nouveau fichier
+    variables["INSTRUCTION_FILE_LIST"].append(read_addonFile(newAddonFile))
+    return variables
+
 def EXECUTE(eval):
     filePath = str(eval[str(len(eval)-2)])
     os.popen(filePath)
@@ -80,6 +90,8 @@ def execute(eval,variables):
         SPEAK(eval)
     if instructionType == "LISTEN":
         LISTEN(eval,variables)
+    if instructionType == "GOTO":
+        variables = GOTO(eval,variables)
 
     if instructionType == "EXECUTE":
         EXECUTE(eval)
