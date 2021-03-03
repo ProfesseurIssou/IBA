@@ -3,6 +3,8 @@
 import Lexer, Parser, Eval, Execute
 import unidecode #pour les accent
 import json,datetime
+import locale #langage du systeme
+import getpass #le nom d'utilisateur
 #pip install SpeechRecognition,PyAudio
 import speech_recognition
 
@@ -47,6 +49,10 @@ def date_(value):
         return datetime.datetime.now().month
     elif value == "day":
         return datetime.datetime.now().day
+def lang_():
+    return locale.getdefaultlocale()[0]
+def username_():
+    return getpass.getuser()
 
 def execute_Instruction(Instruction_List,query):
     #le stockage des variable de l'addon
@@ -65,6 +71,8 @@ def execute_Instruction(Instruction_List,query):
         Addon_Variable[r"%hour%"] = int(time_("hour"))
         Addon_Variable[r"%minute%"] = int(time_("minute"))
         Addon_Variable[r"%second%"] = int(time_("second"))
+        Addon_Variable[r"%lang%"] = str(lang_())
+        Addon_Variable[r"%username%"] = str(username_())
         #On prend l'instruction actuel du dernier fichier d'instruction
         Instruction = Addon_Variable["INSTRUCTION_FILE_LIST"][-1][Addon_Variable["INSTRUCTION_INDEX"][-1]]
         
@@ -89,8 +97,8 @@ def execute_Instruction(Instruction_List,query):
             Addon_Variable["%INDENTATION%"] = Instruction.count("\t")
         #On reture les tab et les passage a la ligne de l'instruction
         Instruction = Instruction.replace("\t","").replace("\n","")
-        #Si la ligne n'est pas un commentaire
-        if Instruction[0] != "#":
+        #Si la ligne n'est pas un commentaire ou est vide
+        if Instruction != "" and Instruction[0] != "#":
             #On genere les tokens de l'instruction
             tokens = Lexer.Gen(Instruction)
             #On separe le sens d'instruction des tokens
@@ -116,7 +124,6 @@ if __name__ == "__main__":
     while 1:
         #On ecoute
         query = unidecode.unidecode(listen().lower())
-        print(query)
         #On execute config.ib
         Instructions = read_addonFile("config.ib")
         execute_Instruction(Instructions,query)

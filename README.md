@@ -1,4 +1,4 @@
-# ICA (1.3.0)
+# ICA (1.4.0)
 
 ## Configure file (lib/config.ib)
 ### Simple example
@@ -7,26 +7,21 @@
 		goto "ConfigFilePath.ib"
 	...
 
-##Trigger Conditions
-
-	word => if the word in the query
-	!word => if the word is not in the query
-	word1 & word2 & ... => if word1 and word2 and ... is in the query
-	word1 | word2 | ... => if word1 or word2 or ... is in the query
-
-
 ## Comment
 	#Some text
 
 ## Data type
 	String => "azerty" <=> 'azerty'
-	Number => 15 => 0.5
+	Number => 15.0  0.5
+	Integer => 15   0
 	bool => true false
 	None => None
+	list => 0,5,"hello" => %MyList%[2] = "hello"
 
 ## Change data type
-	%MyVar% = str(10)	#num->str
-	%MyVar% = num("10")	#str->num
+	%MyVar% = str(10)	#num/int -> str
+	%MyVar% = num("10")	#str/int -> num
+	%MyVar% = int("10") #num/str -> int
 
 ## Variables
 	%MyVar%
@@ -34,6 +29,7 @@
 ## Set variable
 	%MyVar% = 15
 	%MyVar2% = "test"
+	%MyVarList% = 1,2,"hello"
 
 ## Calcul priority
 	%MyVar3% = (5+5)*2
@@ -51,6 +47,7 @@
 	And: x AND y
 	Or: x OR y
 	In: x in y
+	Not: not(x)
 
 ## Default variable
 	%INDENTATION%	#Current condition level 	(int)
@@ -61,6 +58,38 @@
 	%hour%			#Current hour				(int)
 	%minute%		#Current minute				(int)
 	%second%		#Current second				(int)
+	%lang%			#Default language			(string)
+	%username%		#User session name 			(string)
+
+## Lang values
+| CODE          | language 	|
+|---------------|-----------|
+| bg_BG 		| Bulgarian |
+| cs_CZ 		| Czech 	|
+| da_DK			| Danish 	|
+| de_DE 		| German 	|
+| el_GR 		| Greek 	|
+| en_US 		| English 	|
+| es_ES 		| Spanish 	|
+| et_EE 		| Estonian 	|
+| fi_FI 		| Finnish 	|
+| fr_FR 		| French 	|
+| hr_HR 		| Croatian 	|
+| hu_HU 		| Hungarian |
+| it_IT 		| Italian 	|
+| lt_LT 		| Lithuanian|
+| lv_LV 		| Latvian 	|
+| nl_NL 		| Dutch 	|
+| no_NO 		| Norwegian |
+| pl_PL 		| Polish 	|
+| pt_PT 		| Portuguese|
+| ro_RO 		| Romanian 	|
+| ru_RU 		| Russian 	|
+| sk_SK 		| Slovak 	|
+| sl_SI 		| Slovenian |
+| sv_SE 		| Swedish 	|
+| tr_TR 		| Turkish 	|
+| zh_CN 		| Chinese 	|
 
 ## Speak
 	speak %MyText%
@@ -68,6 +97,10 @@
 
 ## Listen
 	listen %InputText%
+
+## Print
+	print %MyText%
+	print "Hello World"
 
 ## Execute file
 	run("path/to/my/file.exe")

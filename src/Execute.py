@@ -33,6 +33,7 @@ def SPEAK(eval):
     #On lance est on attend
     engine.runAndWait()
     return
+
 def LISTEN(eval,variables):
     #voir la qualité micro
     r = speech_recognition.Recognizer()

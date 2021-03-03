@@ -5,6 +5,11 @@ tokenType = {
 
     "VARIABLE":"%[a-zA-Z0-9]{,}%",
 
+    "OPEN_LIST":"\{",
+    "CLOSE_LIST":"\}",
+    "OPEN_LIST_SELECTOR":"\[",
+    "CLOSE_LIST_SELECTOR":"\]",
+
     "STRING":"[\"|\'].+?[\"|\']",
     "LETTER":"[a-zA-Z]+",
     "NUMBER":r"[0-9\.]+",
@@ -67,6 +72,9 @@ keywords = {
     "TO_NUMBER":[
         [["LETTER","num"],"OPEN_PARENTHESIS"]
     ],
+    "TO_INT":[
+        [["LETTER","int"],"OPEN_PARENTHESIS"]
+    ],
 
     "EXECUTE":[
         [["LETTER","run"],"OPEN_PARENTHESIS"]
@@ -107,7 +115,10 @@ keywords = {
     "IN_CONDITION":[
         [["LETTER","in"]],
         [["LETTER","IN"]]
-    ]
+    ],
+    "NOT_CONDITION":[
+        [["LETTER","not"],"OPEN_PARENTHESIS"]
+    ],
 }
 
 
