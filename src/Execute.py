@@ -35,6 +35,7 @@ def SPEAK(eval):
     #On lance est on attend
     engine.runAndWait()
     return
+
 def LISTEN(eval,variables):
     #voir la qualité micro
     r = speech_recognition.Recognizer()
@@ -62,6 +63,15 @@ def WAIT(eval):
     #On attend
     time.sleep(float(eval[str(len(eval)-2)]))
     return
+
+def GOTO(eval,variables):
+    #On recupere le fichier a charger
+    newAddonFile = str(eval[str(len(eval)-1)].value)
+    #On ajoute l'index du nouveau fichier (0, premiere ligne donc -1 comme on vas passer a l'instruction suivante)
+    variables["INSTRUCTION_INDEX"].append(-1)
+    #On ajoute les instruction du nouveau fichier
+    variables["INSTRUCTION_FILE_LIST"].append(read_addonFile(newAddonFile))
+    return variables
 
 def EXECUTE(eval):
     filePath = str(eval[str(len(eval)-2)])
