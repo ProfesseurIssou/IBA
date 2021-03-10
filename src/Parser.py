@@ -23,11 +23,16 @@ RULES = {
     "TRUE_BOOL_TYPE":["TRUE_BOOL_TYPE"],
     "FALSE_BOOL_TYPE":["FALSE_BOOL_TYPE"],
 
+   "LIST_DATA":["NODE","SEMICOLON","NODE"],
+   "LIST_VARIABLE":["NODE","OPEN_LIST_SELECTOR","NODE","CLOSE_LIST_SELECTOR"],
+
     "SET":["SET","NODE"],
     "PRINT":["PRINT","NODE"],
     "SPEAK":["SPEAK","NODE"],
     "LISTEN":["LISTEN"],
     "OPEN_BROWSER":["OPEN_BROWSER","NODE","COMMA","NODE","COMMA","NODE","CLOSE_PARENTHESIS"],
+    "GOTO":["GOTO","NODE"],
+    "WAIT":["WAIT","NODE","CLOSE_PARENTHESIS"],
 
     "ADD":["NODE","PLUS","NODE"],
     "SUB":["NODE","MINUS","NODE"],
@@ -36,6 +41,7 @@ RULES = {
 
     "TO_STRING":["TO_STRING","NODE","CLOSE_PARENTHESIS"],
     "TO_NUMBER":["TO_NUMBER","NODE","CLOSE_PARENTHESIS"],
+    "TO_INT":["TO_INT","NODE","CLOSE_PARENTHESIS"],
 
     "EXECUTE":["EXECUTE","NODE","CLOSE_PARENTHESIS"],
 
@@ -50,17 +56,25 @@ RULES = {
     "LESS_CONDITION":["NODE","LESS_THAN_CONDITION","NODE"],
     "AND_CONDITION":["NODE","AND_CONDITION","NODE"],
     "OR_CONDITION":["NODE","OR_CONDITION","NODE"],
-    "IN_CONDITION":["NODE","IN_CONDITION","NODE"]
+    "IN_CONDITION":["NODE","IN_CONDITION","NODE"],
+    "NOT_CONDITION":["NOT_CONDITION","NODE","CLOSE_PARENTHESIS"],
+
+    "DB_SAVE":["DB_SAVE","NODE","COMMA","NODE","CLOSE_PARENTHESIS"],
+    "DB_LOAD":["DB_LOAD","NODE","CLOSE_PARENTHESIS"],
+    "DB_DEL":["DB_DEL","NODE","CLOSE_PARENTHESIS"],
+    "DB_EXIST":["DB_EXIST","NODE","CLOSE_PARENTHESIS"],
 }
 PRIORITY = [
     ["NUMBER","VARIABLE","STRING","NEGATIVE_NUMBER","NONE_TYPE","FALSE_BOOL_TYPE","TRUE_BOOL_TYPE"],#TYPE DE DONNEE (1=en premier)
-    ["TO_STRING","TO_NUMBER"],#CONVERSION DONNEE (2=en deuxieme)
+    ["TO_STRING","TO_NUMBER","TO_INT"],#CONVERSION DONNEE (2=en deuxieme)
     ["MUL","DIV"],#CALCUL
     ["ADD","SUB"],#CALCUL
-    ["EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION","IN_CONDITION"],#CONDITION
+    ["DB_EXIST","EGAL_CONDITION","NOTEGAL_CONDITION","MORE_EGAL_CONDITION","MORE_CONDITION","LESS_EGAL_CONDITION","LESS_CONDITION","IN_CONDITION","NOT_CONDITION"],#CONDITION
     ["AND_CONDITION","OR_CONDITION"],#CONDITION
     ["PARENTHESIS"],#PRIORITER
-    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER"]#INSTRUCTION
+    ["LIST_DATA","LIST_VARIABLE"],#LIST
+    ["DB_LOAD"],#DB
+    ["SET","PRINT","CONDITION","SPEAK","LISTEN","EXECUTE","OPEN_BROWSER","GOTO","WAIT","DB_SAVE","DB_DEL"]#INSTRUCTION
 ]
 
 
@@ -101,6 +115,14 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeValue = True
     if rule=="VARIABLE":
         nodeValue = tokens[0][1]
+    if rule=="LIST_DATA":
+        nodeNameInput1 = tokens[0][1].name
+        nodeNameInput2 = tokens[2][1].name
+    if rule=="LIST_VARIABLE":
+        #Valeur de la variable
+        nodeValue = tokens[0][1].name
+        #index
+        nodeNameInput1 = tokens[2][1].name
 
     if rule=="PARENTHESIS":
         nodeNameInput1 = tokens[1][1].name
@@ -108,6 +130,8 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="TO_STRING":
         nodeNameInput1 = tokens[1][1].name
     if rule=="TO_NUMBER":
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="TO_INT":
         nodeNameInput1 = tokens[1][1].name
 
     if rule=="EXECUTE":
@@ -126,6 +150,7 @@ def nodeMaker(syntaxTree,rule,tokens):
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
 
+
     if rule=="SET":
         nodeValue = tokens[0][1]
         nodeNameInput1 = tokens[1][1].name
@@ -135,6 +160,10 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="LISTEN":
         #On prend la variable dans la quelle il faut stocker
         nodeValue = tokens[0][1].split(" ")[1]
+    if rule=="GOTO":
+        nodeValue = tokens[1][1].value
+    if rule=="WAIT":
+        nodeValue = tokens[1][1].value
 
     if rule=="OPEN_BROWSER":
         nodeNameInput1 = tokens[1][1].name
@@ -170,6 +199,18 @@ def nodeMaker(syntaxTree,rule,tokens):
     if rule=="IN_CONDITION":
         nodeNameInput1 = tokens[0][1].name
         nodeNameInput2 = tokens[2][1].name
+    if rule=="NOT_CONDITION":
+        nodeNameInput1 = tokens[1][1].name
+
+    if rule=="DB_SAVE":
+        nodeNameInput1 = tokens[1][1].name
+        nodeNameInput2 = tokens[3][1].name
+    if rule=="DB_LOAD":
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="DB_DEL":
+        nodeNameInput1 = tokens[1][1].name
+    if rule=="DB_EXIST":
+        nodeNameInput1 = tokens[1][1].name
 
     currentNode = node(nodeName,nodeType,nodeValue,nodeNameInput1,nodeNameInput2,nodeNameInput3)
     return currentNode

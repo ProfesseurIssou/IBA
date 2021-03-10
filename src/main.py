@@ -3,6 +3,8 @@
 import Lexer, Parser, Eval, Execute
 import unidecode #pour les accent
 import json,datetime
+import locale #langage du systeme
+import getpass #le nom d'utilisateur
 #pip install SpeechRecognition,PyAudio
 import speech_recognition
 
@@ -23,14 +25,6 @@ def listen():
             query = None
     return query
 
-def search_addonFile(trigger):
-    with open("lib/Default.json") as json_file:
-        data = json.load(json_file)
-    #on verifie l'existance du trigger
-    if trigger in data.keys():
-        return data[trigger]
-    else:
-        return False
 def read_addonFile(File_Name):
     Addon_File = open("lib/"+str(File_Name),"r")
     Addon_Instruction = Addon_File.readlines()
@@ -55,6 +49,10 @@ def date_(value):
         return datetime.datetime.now().month
     elif value == "day":
         return datetime.datetime.now().day
+def lang_():
+    return locale.getdefaultlocale()[0]
+def username_():
+    return getpass.getuser()
 
 def execute_Instruction(Instruction_List,query):
     #le stockage des variable de l'addon
@@ -73,6 +71,8 @@ def execute_Instruction(Instruction_List,query):
         Addon_Variable[r"%hour%"] = int(time_("hour"))
         Addon_Variable[r"%minute%"] = int(time_("minute"))
         Addon_Variable[r"%second%"] = int(time_("second"))
+        Addon_Variable[r"%lang%"] = str(lang_())
+        Addon_Variable[r"%username%"] = str(username_())
         #On prend l'instruction actuel du dernier fichier d'instruction
         Instruction = Addon_Variable["INSTRUCTION_FILE_LIST"][-1][Addon_Variable["INSTRUCTION_INDEX"][-1]]
         
@@ -97,8 +97,8 @@ def execute_Instruction(Instruction_List,query):
             Addon_Variable["%INDENTATION%"] = Instruction.count("\t")
         #On reture les tab et les passage a la ligne de l'instruction
         Instruction = Instruction.replace("\t","").replace("\n","")
-        #Si la ligne n'est pas un commentaire
-        if Instruction[0] != "#":
+        #Si la ligne n'est pas un commentaire ou est vide
+        if Instruction != "" and Instruction[0] != "#":
             #On genere les tokens de l'instruction
             tokens = Lexer.Gen(Instruction)
             #On separe le sens d'instruction des tokens
@@ -108,8 +108,8 @@ def execute_Instruction(Instruction_List,query):
             #On execute l'instruction
             Addon_Variable = Execute.execute(eval,Addon_Variable)
 
-        #Si on a fini le dernier fichier d'instruction
-        if len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
+        #Tant que la liste n'est pas vide ET pour chaque fichiers parents, on est a la derniere instruction
+        while Addon_Variable["INSTRUCTION_FILE_LIST"] != [] and len(Addon_Variable["INSTRUCTION_FILE_LIST"][-1]) == Addon_Variable["INSTRUCTION_INDEX"][-1]+1:
             #On enleve le dernier fichier de la liste
             del Addon_Variable["INSTRUCTION_FILE_LIST"][-1]
             #On enleve le dernier index du dernier fichier de la liste
@@ -124,13 +124,6 @@ if __name__ == "__main__":
     while 1:
         #On ecoute
         query = unidecode.unidecode(listen().lower())
-        print(query)
-        #on cherche pour chaque mot de la query
-        for word in query.split(" "):
-            File_Name = search_addonFile(word)
-            if File_Name == False:
-                continue
-            else:
-                Instructions = read_addonFile(File_Name)
-                execute_Instruction(Instructions,query)
-                continue
+        #On execute config.ib
+        Instructions = read_addonFile("config.ib")
+        execute_Instruction(Instructions,query)

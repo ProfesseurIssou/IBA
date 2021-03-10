@@ -3,7 +3,12 @@ import re
 tokenType = {
     "COMMENT":"[#].+",
 
-    "VARIABLE":"%[a-zA-Z0-9]{,}%",
+    "VARIABLE":"%[a-zA-Z0-9_]{,}%",
+
+    "OPEN_LIST":r"\{",
+    "CLOSE_LIST":r"\}",
+    "OPEN_LIST_SELECTOR":r"\[",
+    "CLOSE_LIST_SELECTOR":r"\]",
 
     "STRING":"[\"|\'].+?[\"|\']",
     "LETTER":"[a-zA-Z]+",
@@ -21,6 +26,8 @@ tokenType = {
     "CLOSE_GUILLEMET":"[>]",
     "DOUBLE_POINT":"[:]",
     "COMMA":"[,]",
+    "UNDERSCORE":"[_]",
+    "SEMICOLON":"[;]",
 
     "SPACE":"[ ]",
 
@@ -52,6 +59,12 @@ keywords = {
     "LISTEN":[
         [["LETTER","listen"],"SPACE","VARIABLE"]
     ],
+    "GOTO":[
+        [["LETTER","goto"],"SPACE"]
+    ],
+    "WAIT":[
+        [["LETTER","wait"],"OPEN_PARENTHESIS"]
+    ],
 
     "SET":[
         ["VARIABLE","EGAL"],
@@ -63,6 +76,9 @@ keywords = {
     ],
     "TO_NUMBER":[
         [["LETTER","num"],"OPEN_PARENTHESIS"]
+    ],
+    "TO_INT":[
+        [["LETTER","int"],"OPEN_PARENTHESIS"]
     ],
 
     "EXECUTE":[
@@ -104,7 +120,23 @@ keywords = {
     "IN_CONDITION":[
         [["LETTER","in"]],
         [["LETTER","IN"]]
-    ]
+    ],
+    "NOT_CONDITION":[
+        [["LETTER","not"],"OPEN_PARENTHESIS"]
+    ],
+    
+    "DB_SAVE":[
+        [["LETTER","db"],"UNDERSCORE",["LETTER","save"],"OPEN_PARENTHESIS"]
+    ],
+    "DB_LOAD":[
+        [["LETTER","db"],"UNDERSCORE",["LETTER","load"],"OPEN_PARENTHESIS"]
+    ],
+    "DB_DEL":[
+        [["LETTER","db"],"UNDERSCORE",["LETTER","del"],"OPEN_PARENTHESIS"]
+    ],
+    "DB_EXIST":[
+        [["LETTER","db"],"UNDERSCORE",["LETTER","exist"],"OPEN_PARENTHESIS"]
+    ],
 }
 
 
