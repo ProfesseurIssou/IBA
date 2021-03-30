@@ -1,1 +1,1 @@
-speak "Nous somme le " + str(%day%) +" "+ str(%month%) +" "+ str(%year%)
+speak(toStr(_day_) +" "+ toStr(_month_) +" "+ toStr(_year_))

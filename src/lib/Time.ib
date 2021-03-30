@@ -1,1 +1,1 @@
-speak "il est actuelement" + str(%hour%) + "heures " + str(%minute%) + "minutes et"+ str(%second%)+"secondes"
+speak(toStr(_hour_) + "hours " + toStr(_minute_) + "minutes and "+ toStr(_second_)+"seconds")

@@ -1,10 +1,10 @@
-# ICA (1.5.0)
+# ICA (2.0.0)
 
 ## Configure file (lib/config.ib)
 ### Simple example
 	...
-	if "myWord" in %query%:
-		goto "ConfigFilePath.ib"
+	if "myWord" in query:
+		goto("ConfigFilePath.ib")
 	...
 
 ## Comment
@@ -15,24 +15,28 @@
 	Number => 15.0  0.5
 	Integer => 15   0
 	bool => true false
-	None => None
-	list => 0;5;"hello" => %MyList%[2] = "hello"
-
-## Change data type
-	%MyVar% = str(10)	#num/int -> str
-	%MyVar% = num("10")	#str/int -> num
-	%MyVar% = int("10") #num/str -> int
+	none => none
+	list => {0,5,"hello"} => MyList[2] = "hello"
 
 ## Variables
-	%MyVar%
+	MyVar1
+	MyVar2
+
+## Change data type
+	MyVar = toStr(10)		#float/int -> str
+	MyVar = toFloat("10")	#str/int -> float
+	MyVar = toInt("10") 	#float/str -> int
+
+## Get variables type
+	type(MyVar)
 
 ## Set variable
-	%MyVar% = 15
-	%MyVar2% = "test"
-	%MyVarList% = 1,2,"hello"
+	MyVar = 15
+	MyVar2 = "test"
+	MyVarList = {1,2,"hello"}
 
 ## Calcul priority
-	%MyVar3% = (5+5)*2
+	MyVar3 = (5+5)*2
 
 ## Condition
 	if condition:
@@ -44,22 +48,23 @@
 	More egal than: x >= y
 	Less than: x < y
 	Less egal than: x <=y
-	And: x AND y
-	Or: x OR y
+	And: x and y
+	Or: x or y
 	In: x in y
 	Not: not(x)
 
 ## Default variable
-	%INDENTATION%	#Current condition level 	(int)
-	%query%			#The first call words 		(string)
-	%year%			#Current year				(int)
-	%month%			#Current month				(int)
-	%day%			#Current day				(int)
-	%hour%			#Current hour				(int)
-	%minute%		#Current minute				(int)
-	%second%		#Current second				(int)
-	%lang%			#Default language			(string)
-	%username%		#User session name 			(string)
+	_INDENTATION_	#Current condition level 	(int)
+	_CPATH_			#Current working path 		(string)
+	_query_			#The first call words 		(string)
+	_year_			#Current year				(int)
+	_month_			#Current month				(int)
+	_day_			#Current day				(int)
+	_hour_			#Current hour				(int)
+	_minute_		#Current minute				(int)
+	_second_		#Current second				(int)
+	_lang_			#Default language			(string)
+	_username_		#User session name 			(string)
 
 ## Lang values
 | CODE          | language 	|
@@ -92,18 +97,23 @@
 | zh_CN 		| Chinese 	|
 
 ## Speak
-	speak %MyText%
-	speak "Hello World"
+	speak(MyText)
+	speak("Hello World")
 
 ## Listen
-	listen %InputText%
+	Text = listen()
+	speak(listen())
 
 ## Print
-	print %MyText%
-	print "Hello World"
+	print(MyText)
+	print("Hello World")
 
 ## Wait
 	wait(5.0) #Wait 5 second
+
+## Length of list or string
+	len(MyList)
+	len(MyText)
 
 ## Execute file
 	run("path/to/my/file.exe")
@@ -115,7 +125,7 @@
 ## Saving data into database
 	db_save("key",value)
 ## Load data from database
-	%myVar% = db_load("key")
+	myVar = db_load("key")
 ## Delete data from database
 	db_del("key")
 ## If key exist in database
