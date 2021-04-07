@@ -35,6 +35,8 @@ class Node:
             "TokOpenBrowser":self.OPENBROWSER,
             "TokDbSave":self.DBSAVE,
             "TokDbDel":self.DBDEL,
+            "TokLabel":self.LABEL,
+            "TokJump":self.JUMP,
 
             #Condition
             "TokEqual":self.EQUAL,
@@ -215,6 +217,16 @@ class Node:
     def DBDEL(self,tokenList,tokPos):
         self.NodeRule = "DBDEL"             #On definie le noeud actuel
         subNodeTokens = tokenList[2:-1]     #On prend les tokens entre les parenthese
+        self.SubNodeList.append(Node(subNodeTokens))#On cree un sous noeud avec les tokens pour le sous noeud
+        return []                           #On efface tout les token car il n'est pas cense en rester
+    def LABEL(self,tokenList,tokPos):
+        self.NodeRule = "LABEL"             #On definie le noeud actuel
+        subNodeTokens = tokenList[1:]       #On prend les tokens apres l'instruction
+        self.SubNodeList.append(Node(subNodeTokens))#On cree un sous noeud avec les tokens pour le sous noeud
+        return []                           #On efface tout les token car il n'est pas cense en rester
+    def JUMP(self,tokenList,tokPos):
+        self.NodeRule = "JUMP"              #On definie le noeud actuel
+        subNodeTokens = tokenList[1:]       #On prend les tokens apres l'instruction
         self.SubNodeList.append(Node(subNodeTokens))#On cree un sous noeud avec les tokens pour le sous noeud
         return []                           #On efface tout les token car il n'est pas cense en rester
     #################################
@@ -676,6 +688,7 @@ class Node:
             newAddonFile = str(self.SubNodeList[0]) #On recupere le nom du fichier a charger
             variables["_INSTRUCTION_INDEX_"].append(-1) #On ajoute l'index du nouveau fichier (0, premiere ligne donc -1 comme on vas passer a l'instruction suivante)
             variables["_INSTRUCTION_FILE_LIST_"].append(ReadAddonFile(newAddonFile))#On recupere et on ajoute les instruction du nouveau fichier
+            variables["_LABEL_"].append({})         #On prepare la liste de label
         if self.NodeRule == "WAIT":         #Si notre noeud est un WAIT
             time.sleep(float(self.SubNodeList[0]))#On recupere le temp d'attente
         if self.NodeRule == "RUN":          #Si notre noeud est un RUN
@@ -717,6 +730,14 @@ class Node:
             #On save la db
             with open('lib/data', 'w') as outfile:
                 json.dump(db, outfile)
+        if self.NodeRule == "LABEL":        #Si notre noeud est une definition de label
+            labelName = self.SubNodeList[0]     #On recupere le nom du label
+            labelLine = variables["_INSTRUCTION_INDEX_"][-1]#On recupere l'index du label
+            variables["_LABEL_"][-1][labelName] = labelLine #On cree le label par rapport a notre fichier actuel
+        if self.NodeRule == "JUMP":         #Si notre noeud est un changement d'index vers le label
+            labelName = self.SubNodeList[0]     #On recupere le nom du label
+            labelLine = variables["_LABEL_"][-1][labelName]#On recupere l'index du label
+            variables["_INSTRUCTION_INDEX_"][-1] = labelLine    #On change l'index du fichier actuel
         return variables
     #################################
 

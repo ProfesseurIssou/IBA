@@ -1,4 +1,4 @@
-# ICA (2.0.0)
+# ICA (2.1.0)
 
 ## Configure file (lib/config.ib)
 ### Simple example
@@ -60,6 +60,7 @@
 	_year_			#Current year				(int)
 	_month_			#Current month				(int)
 	_day_			#Current day				(int)
+	_dayName_		#Name current day			(string)
 	_hour_			#Current hour				(int)
 	_minute_		#Current minute				(int)
 	_second_		#Current second				(int)
@@ -95,6 +96,12 @@
 | sv_SE 		| Swedish 	|
 | tr_TR 		| Turkish 	|
 | zh_CN 		| Chinese 	|
+
+## Label
+	lbl 'MyLabelName'
+	#Some code
+	#...
+	jmp 'MyLabelName'
 
 ## Speak
 	speak(MyText)

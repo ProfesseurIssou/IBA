@@ -15,10 +15,12 @@ class ISCODE:
             "_INSTRUCTION_FILE_LIST_":[],       #Liste des instruction entre chaque fichier et sous fichier [[instructionListFicher1],[InstructionListFichier2]]
             "_INDENTATION_":0,                  #Pour le condition
             "_INDENTATION_TYPE_":None,          #Le caractere d'indentation (changera automatiquement)
+            "_LABEL_":[{}],                     #Liste des fichier, et dictionnaire des label (valeur = ligne du label)
             "_CPATH_":"",                       #Dossier de travail
             "_year_":0,
             "_month_":0,
             "_day_":0,
+            "_dayName_":"",
             "_hour_":0,
             "_minute_":0,
             "_second_":0,
@@ -35,10 +37,12 @@ class ISCODE:
             "_INSTRUCTION_FILE_LIST_":[],       #Liste des instruction entre chaque fichier et sous fichier [[instructionListFicher1],[InstructionListFichier2]]
             "_INDENTATION_":0,                  #Pour le condition
             "_INDENTATION_TYPE_":None,          #Le caractere d'indentation
+            "_LABEL_":[{}],                     #Liste des fichier, et dictionnaire des label (valeur = ligne du label)
             "_CPATH_":"",                       #Dossier de travail
             "_year_":0,
             "_month_":0,
             "_day_":0,
+            "_dayName_":"",
             "_hour_":0,
             "_minute_":0,
             "_second_":0,
@@ -66,6 +70,7 @@ class ISCODE:
         self.variables["_INSTRUCTION_INDEX_"] = [0]     #Liste des index au fur et a mesure des fichier [indexFile1,indexFile2]
         self.variables["_INSTRUCTION_FILE_LIST_"] = [InstructionsList]#Liste des instruction entre chaque fichier et sous fichier [[instructionListFicher1],[InstructionListFichier2]]
         self.variables["_INDENTATION_"] = 0             #Pour le condition
+        self.variables["_LABEL_"] = [{}]                #Pour les label du fichier
 
         while self.variables["_INSTRUCTION_FILE_LIST_"] != []:  #Tant qu'on a pas fini tout les fichier
             Instruction = self.variables["_INSTRUCTION_FILE_LIST_"][-1]         #On prend les instructions du dernier fichier
@@ -86,6 +91,7 @@ class ISCODE:
                     if len(self.variables["_INSTRUCTION_FILE_LIST_"][-1]) == self.variables["_INSTRUCTION_INDEX_"][-1]+1:   #Si on a fini le dernier fichier d'instruction
                         del self.variables["_INSTRUCTION_FILE_LIST_"][-1]   #On supprime le dernier fichier de la liste
                         del self.variables["_INSTRUCTION_INDEX_"][-1]       #On supprime la derniere index de l'ancien fichier de la liste
+                        del self.variables["_LABEL_"][-1]                   #On supprime les labels de l'ancien fichier
                     if self.variables["_INSTRUCTION_FILE_LIST_"] != []: #Si il reste encore des fichier dans la liste
                         self.variables["_INSTRUCTION_INDEX_"][-1] += 1      #On passe l'index du dernier fichier a +1 (pour ne pas ré executé le goto)
                     continue    #On passe au suivant
@@ -103,6 +109,7 @@ class ISCODE:
             while self.variables["_INSTRUCTION_FILE_LIST_"] != [] and len(self.variables["_INSTRUCTION_FILE_LIST_"][-1]) == self.variables["_INSTRUCTION_INDEX_"][-1]+1:#Tant que la liste n'est pas vide ET pour chaque fichier parents, on est a la derniere instruction
                 del self.variables["_INSTRUCTION_FILE_LIST_"][-1]   #On supprime le dernier fichier de la liste
                 del self.variables["_INSTRUCTION_INDEX_"][-1]       #On supprime la derniere index de l'ancien fichier de la liste
+                del self.variables["_LABEL_"][-1]                   #On supprime les labels de l'ancien fichier
             if self.variables["_INSTRUCTION_FILE_LIST_"] != []: #Si il reste encore des fichier dans la liste
                 self.variables["_INSTRUCTION_INDEX_"][-1] += 1      #On passe l'index du dernier fichier a +1 (pour ne pas ré executé le goto)
 
@@ -114,6 +121,7 @@ class ISCODE:
         self.variables["_year_"] = datetime.datetime.now().year
         self.variables["_month_"] = datetime.datetime.now().month
         self.variables["_day_"] = datetime.datetime.now().day
+        self.variables["_dayName_"] = datetime.datetime.now().strftime("%A")
         self.variables["_hour_"] = datetime.datetime.now().hour
         self.variables["_minute_"] = datetime.datetime.now().minute
         self.variables["_second_"] = datetime.datetime.now().second

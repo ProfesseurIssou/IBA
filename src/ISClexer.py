@@ -49,6 +49,8 @@ keywords = { #Comme tout les token constitué de lettre passerons en variable, o
     "TokPrint":"print",
     "TokSpeak":"speak",
     "TokGoto":"goto",
+    "TokLabel":"lbl",
+    "TokJump":"jmp",
     "TokWait":"wait",
     "TokExecute":"run",
     "TokOpenBrowser":"openBrowser",
