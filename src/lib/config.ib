@@ -1,7 +1,7 @@
-print(query)
-if "search" in query:
+print(_query_)
+if "search" in _query_:
     goto("Search.ib")
-if "date" in query:
+if "date" in _query_:
     goto("Date.ib")
-if "hour" in query
+if "hour" in _query_:
     goto("Time.ib")

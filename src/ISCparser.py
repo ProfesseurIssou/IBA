@@ -65,6 +65,7 @@ class Node:
             "TokLen":self.LENGTH,
             "TokDbLoad":self.DBLOAD,
             "TokDbExist":self.DBEXIST,
+            "TokWordBankLoad":self.WORDBANKLOAD,
 
             #Priority
             "TokOpenParen":self.PRIORITY,
@@ -444,6 +445,20 @@ class Node:
         subNodeTokens = tokenList[tokPos+2:posCloseParen]#On prend le contenue entre les parenthese
         self.SubNodeList.append(Node(subNodeTokens))    #On cree le noeud du contenue de la parenthese
         return tokenList[:tokPos]+tokenList[posCloseParen+1:]#On retourne tout les tokens qui reste avant et apres la fermeture de parenthese
+    def WORDBANKLOAD(self,tokenList,tokPos):
+        self.NodeRule = "WORDBANKLOAD"                  #On definie le noeud actuel comme un chargement d'une wordbank
+        #On recherhe la fermeture de parenthese
+        nbSubParenthesis = 0                            #Nombre de sous parenthese (on commence a la position de la premiere parenthese dans la liste des tokens pour ne pas compté l'ouverture de la principale, quand cette variable arrive a -1, c'est que c'est cette parenthese)
+        posCloseParen = tokPos+1                        #Position de la fermeture de parenthese actuel
+        while nbSubParenthesis != -1:                   #Tant qu'on n'a pas trouver la fermeture de parenthese
+            posCloseParen += 1                              #Position suivante
+            if tokenList[posCloseParen][0]=="TokOpenParen": #Si il y a une sous parenthese
+                nbSubParenthesis += 1                           #On attend une fermeture en plus
+            if tokenList[posCloseParen][0]=="TokCloseParen":#Si il y a une fermeture d'une parenthese
+                nbSubParenthesis -= 1                           #On ferme la parenthese actuel
+        subNodeTokens = tokenList[tokPos+2:posCloseParen]#On prend le contenue entre les parenthese
+        self.SubNodeList.append(Node(subNodeTokens))    #On cree le noeud du contenue de la parenthese
+        return tokenList[:tokPos]+tokenList[posCloseParen+1:]#On retourne tout les tokens qui reste avant et apres la fermeture de parenthese
     #############################################
 
     #####PRIORITY#####
@@ -580,7 +595,7 @@ class Node:
             if type(subNode) == Node:                       #Si le sous noeud est encore un noeud et pas une valeur exploitable
                 self.SubNodeList[x] = subNode.execute(variables)#On lance le calcul des noeuds inferieur
 
-        
+        #Type de données
         if self.NodeRule == "FALSE":        #Si notre noeud est une valeur False
             return False                        #On retourne la valeur False
         if self.NodeRule == "TRUE":         #Si notre noeud est une valeur True
@@ -608,9 +623,11 @@ class Node:
         if self.NodeRule == "LISTTYPE":     #Si notre noeud est un type list
             return list                         #On retourne le type list
 
+        #Priorité
         if self.NodeRule == "PRIORITY":     #Si notre noeud est une priorité
             return self.SubNodeList[0]          #On retourne la valeur du sous noeud
 
+        #Liste
         if self.NodeRule == "LISTDATA":     #Si notre noeud est une liste
             returnList = []                     #Liste de valeur de chaque partie de la liste
             for part in self.SubNodeList:       #Pour chaque partie de la liste (sous noeud)
@@ -621,6 +638,7 @@ class Node:
             value = variables[self.value][index] #On recupere la valeur a retourné
             return value                        #On retourne la valeur
 
+        #Instructions qui retourne une valeur
         if self.NodeRule == "LISTEN":       #Si notre noeud est une ecoute
             return listen()                     #On retourne la valeur de l'ecoute
         if self.NodeRule == "TOSTR":        #Si notre noeud est un changement de type vers str
@@ -641,6 +659,13 @@ class Node:
             with open('lib/data') as json_file:
                 db = json.load(json_file)
             return self.SubNodeList[0] in db.keys()
+        if self.NodeRule == "WORDBANKLOAD": #Si notre noeud est un chargement d'une wordbank
+            wbPath = self.SubNodeList[0]
+            wb = open(wbPath,"r")
+            wordsList = wb.readline()
+            wb.close()
+            wordsList = wordsList.split(";")
+            return wordsList
 
         if self.NodeRule == "ADD":          #Si notre noeud est une addition
             return self.SubNodeList[0] + self.SubNodeList[1]#On retourne la valeur de l'addition des deux sous noeuds

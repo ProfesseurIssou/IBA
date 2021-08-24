@@ -1,0 +1,19 @@
+ISCODE.py:
+	Gestion général
+
+ISClexer.py:
+	Détéction des instructions textes
+
+ISCparser.py:
+	SyntaxTree
+	Execution
+
+
+Couper un STR en List
+Longueur d'une liste/str
+Lire un fichier
+Créer un fichier
+Ajouter à un fichier
+Supprimer un fichier
+Créer un dossier
+Supprimer un dossier

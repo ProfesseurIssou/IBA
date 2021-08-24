@@ -1,4 +1,4 @@
-# ICA (2.1.0)
+# ICA (2.1.1)
 
 ## Configure file (lib/config.ib)
 ### Simple example
@@ -129,6 +129,7 @@
 	openBrowser("PathToTheBrowser","PUBLIC","URL")
 	openBrowser("PathToTheBrowser","PRIVATE","URL")
 
+# DataBase
 ## Saving data into database
 	db_save("key",value)
 ## Load data from database
@@ -137,3 +138,12 @@
 	db_del("key")
 ## If key exist in database
 	db_exist("key") (return true or false)
+
+# WordBank
+## WordBank example
+_WordBank/no.ibb_
+```
+no;No;non;Non
+```
+## Load WordBank
+	wordList = loadWB("Path/WordBank.ibb") (return a list with all words)

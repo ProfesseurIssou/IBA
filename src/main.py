@@ -26,4 +26,4 @@ if __name__ == "__main__":
     while 1:                        #Boucle infinie
         env.reset()                     #On reinitialise l'environement
         query = unidecode.unidecode(listen().lower())   #On ecoute, on enleve les caractere special
-        env.executeIbFile("config.ib",{"_CPATH_":"lib/","query":query})#On lance l'execution de config.ib en mettant une variable supplementaire (query) et en changeant le dossier de travail
+        env.executeIbFile("config.ib",{"_CPATH_":"lib/","_query_":query})#On lance l'execution de config.ib en mettant une variable supplementaire (query) et en changeant le dossier de travail

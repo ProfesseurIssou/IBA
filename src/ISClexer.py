@@ -1,5 +1,5 @@
 import re
-tokenType = {          #Pour lexer
+tokenType = { #Pour lexer
     "TokSh":"[#]",
 
     "TokString":"[\"|\'].+?[\"|\']",
@@ -77,6 +77,8 @@ keywords = { #Comme tout les token constitué de lettre passerons en variable, o
     "TokDbLoad":"db_load",
     "TokDbDel":"db_del",
     "TokDbExist":"db_exist",
+
+    "TokWordBankLoad":"loadWB",
 }
 
 def Lexer(Instruction):
