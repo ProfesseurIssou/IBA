@@ -41,13 +41,14 @@ tokenType = { #Pour lexer
     "TokVariable":"[a-zA-Z0-9_]+",
 }
 
-keywords = { #Comme tout les token constitué de lettre passerons en variable, on vas repasser sur toute les variables pour voir si ce n'est pas des keyword
+keywords = { #Comme tout les tokens constitué de lettres passerons en variable, on va repasser sur toute les variables pour voir si ce n'est pas des keywords
     "TokNone":"none",
     "TokFalse":"false",
     "TokTrue":"true",
 
     "TokPrint":"print",
     "TokSpeak":"speak",
+    "TokListen":"listen",
     "TokGoto":"goto",
     "TokLabel":"lbl",
     "TokJump":"jmp",
@@ -60,6 +61,7 @@ keywords = { #Comme tout les token constitué de lettre passerons en variable, o
     "TokToFloat":"toFloat",
     "TokToInt":"toInt",
     "TokLen":"len",
+    "TokSplit":"split",
 
     "TokStrType":"str",
     "TokIntType":"int",

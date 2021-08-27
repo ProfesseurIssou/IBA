@@ -1,4 +1,4 @@
-# ICA (2.1.1)
+# ICA (2.1.2)
 
 ## Configure file (lib/config.ib)
 ### Simple example
@@ -67,7 +67,7 @@
 	_lang_			#Default language			(string)
 	_username_		#User session name 			(string)
 
-## Lang values
+## \_lang\_ values
 | CODE          | language 	|
 |---------------|-----------|
 | bg_BG 		| Bulgarian |
@@ -119,8 +119,11 @@
 	wait(5.0) #Wait 5 second
 
 ## Length of list or string
-	len(MyList)
-	len(MyText)
+	listLen = len(MyList)
+	msgLen = len(MyText)
+
+## Split string into list
+    myList = split("myString","delimiter")
 
 ## Execute file
 	run("path/to/my/file.exe")

@@ -9,7 +9,6 @@ ISCparser.py:
 	Execution
 
 
-Couper un STR en List
 Longueur d'une liste/str
 Lire un fichier
 Créer un fichier
