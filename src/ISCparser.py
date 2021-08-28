@@ -63,6 +63,7 @@ class Node:
             "TokToInt":self.TOINT,
             "TokType":self.TYPE,
             "TokLen":self.LENGTH,
+            "TokReplace":self.REPLACE,
             "TokSplit":self.SPLIT,
             "TokDbLoad":self.DBLOAD,
             "TokDbExist":self.DBEXIST,
@@ -418,6 +419,43 @@ class Node:
         subNodeTokens = tokenList[tokPos+2:posCloseParen]#On prend le contenue entre les parenthese
         self.SubNodeList.append(Node(subNodeTokens))    #On cree le noeud du contenue de la parenthese
         return tokenList[:tokPos]+tokenList[posCloseParen+1:]#On retourne tout les tokens qui reste avant et apres la fermeture de parenthese
+    def REPLACE(self,tokenList,tokPos):
+        self.NodeRule = "REPLACE"               #On definie le noeud actuel
+        #On recherhe la fermeture de parenthese
+        nbSubParenthesis = 0                            #Nombre de sous parenthese (on commence a la position de la premiere parenthese dans la liste des tokens pour ne pas compté l'ouverture de la principale, quand cette variable arrive a -1, c'est que c'est cette parenthese)
+        posCloseParen = tokPos+1                        #Position de la fermeture de parenthese actuel
+        while nbSubParenthesis != -1:                   #Tant qu'on n'a pas trouver la fermeture de parenthese
+            posCloseParen += 1                              #Position suivante
+            if tokenList[posCloseParen][0]=="TokOpenParen": #Si il y a une sous parenthese
+                nbSubParenthesis += 1                           #On attend une fermeture en plus
+            if tokenList[posCloseParen][0]=="TokCloseParen":#Si il y a une fermeture d'une parenthese
+                nbSubParenthesis -= 1                           #On ferme la parenthese actuel
+        subNodeTokens = tokenList[tokPos+2:posCloseParen]#On prend le contenue entre les parenthese
+        
+        #On separe par la virgule
+        nbSubBrace = 0                                  #Nombre de sous accolade
+        nbSubBracket = 0                                #Nombre de sous crochet
+        nbSubParenthesis = 0                            #Nombre de sous parenthese
+        firstPos = 0                                    #Position du premier token de la partie (entre les virgule)
+        for x,token in enumerate(subNodeTokens):        #Pour chaque token de la liste des sous tokens
+            if token[0] == "TokOpenBrace":                  #Si le token actuel est une ouverture d'accolade
+                nbSubBrace += 1                                 #On ajoute 1 au nombre d'accolade
+            if token[0] == "TokCloseBrace":                 #Si le token actuel est une fermeture d'accolade
+                nbSubBrace -= 1                                 #On retire 1 au nombre d'accolade
+            if token[0] == "TokOpenBracket":                #Si le token actuel est une ouverture de crochet
+                nbSubBracket += 1                               #On ajoute 1 au nombre de crochet
+            if token[0] == "TokCloseBracket":               #Si le token actuel est une fermeture de crochet
+                nbSubBracket -= 1                               #On retire 1 au nombre de crochet
+            if token[0] == "TokOpenParen":                  #Si le token actuel est une ouverture de parenthese
+                nbSubParenthesis += 1                           #On ajoute 1 au nombre de parenthese
+            if token[0] == "TokCloseParen":                 #Si le token actuel est une fermeture de parenthese
+                nbSubParenthesis -= 1                           #On retire 1 au nombre de parenthese
+            if token[0] == "TokComma" and nbSubBrace == 0 and nbSubBracket == 0 and nbSubParenthesis == 0:#Si le token actuel est une virgule ET qu'on n'est pas dans une sous liste ET qu'on n'est pas dans un selecteur de liste ET qu'on n'est pas dans une sous parenthese
+                self.SubNodeList.append(Node(subNodeTokens[firstPos:x]))#On cree le noeud du contenue entre les virgule
+                firstPos = x+1                                   #On se place apres la virgule pour la prochaine partie
+        self.SubNodeList.append(Node(subNodeTokens[firstPos:]))#On cree un sous noeud avec les tokens restant pour le sous noeud
+
+        return tokenList[:tokPos]+tokenList[posCloseParen+1:]#On retourne tout les tokens qui reste avant et apres la fermeture de parenthese
     def SPLIT(self,tokenList,tokPos):
         self.NodeRule = "SPLIT"                 #On definie le noeud actuel
         #On recherhe la fermeture de parenthese
@@ -689,6 +727,11 @@ class Node:
             return type(self.SubNodeList[0])    #On retourne la valeur du type du sous noeud
         if self.NodeRule == "LENGTH":       #Si notre noeud est une longueur de la données
             return len(self.SubNodeList[0])     #On retourne la longueur de la données du sous noeud
+        if self.NodeRule == "REPLACE":       #Si notre noeud est un remplacement de char de str
+            string = self.SubNodeList[0]        #String de base
+            targetChar = self.SubNodeList[1]    #Caractère a remplacer
+            newChar = self.SubNodeList[2]       #Caractère de remplacement
+            return string.replace(targetChar,newChar)#On retourne le str avec les characteres remplacé
         if self.NodeRule == "SPLIT":        #Si notre noeud est un découpage de str
             string = self.SubNodeList[0]        #String a découper
             delimiter = self.SubNodeList[1]     #Caractère délimiteur

@@ -1,4 +1,4 @@
-# ICA (2.1.2)
+# IBA (2.1.3)
 
 ## Configure file (lib/config.ib)
 ### Simple example
@@ -121,6 +121,9 @@
 ## Length of list or string
 	listLen = len(MyList)
 	msgLen = len(MyText)
+
+## Replace characteres
+    myText = replace("myText","targetCharacter","newCharacter")
 
 ## Split string into list
     myList = split("myString","delimiter")

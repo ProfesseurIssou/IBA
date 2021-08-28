@@ -8,8 +8,6 @@ ISCparser.py:
 	SyntaxTree
 	Execution
 
-
-Longueur d'une liste/str
 Lire un fichier
 Créer un fichier
 Ajouter à un fichier

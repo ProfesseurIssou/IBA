@@ -1,8 +1,8 @@
 import re
 tokenType = { #Pour lexer
-    "TokSh":"[#]",
-
     "TokString":"[\"|\'].+?[\"|\']",
+
+    "TokSh":"[#]",
     
     "TokNegativeNumber":r"(?:[^0-9a-zA-Z\)]{1})([-][0-9.]+)",
     "TokFloat":r"(?:[^0-9a-zA-Z]{1})([0-9]+[.]{1}[0-9]+)",
@@ -61,6 +61,7 @@ keywords = { #Comme tout les tokens constitué de lettres passerons en variable,
     "TokToFloat":"toFloat",
     "TokToInt":"toInt",
     "TokLen":"len",
+    "TokReplace":"replace",
     "TokSplit":"split",
 
     "TokStrType":"str",
